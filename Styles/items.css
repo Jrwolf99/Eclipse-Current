@@ -1,0 +1,116 @@
+.stars,
+.ring_glow,
+.ring,
+.border,
+.particle,
+.bullet,
+.obstacle {
+  position: absolute;
+}
+
+.ring_glow {
+  z-index: -100;
+}
+.ring {
+  z-index: 100;
+}
+
+.stars {
+  height: 100%;
+  width: 100%;
+}
+
+.stars2 {
+  top: 1000px;
+}
+
+.border {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+  width: 100%;
+}
+
+.bigdipper {
+  height: 500px;
+  width: 500px;
+
+  position: absolute;
+  left: 500px;
+  top: 200px;
+}
+.score {
+  position: absolute;
+  left: 520px;
+  top: 190px;
+
+  color: grey;
+  font-size: 20px;
+}
+
+.bullet {
+  height: 200px;
+  width: 200px;
+  /* border-radius: 50%; */
+  background-image: url("/Assets/SVGs/bullet.svg");
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.obstacle {
+  background: url("/Assets/SVGs/AsteroidModelLarge.svg");
+}
+
+.ship {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100px;
+  width: 100px;
+  position: relative;
+
+  /* -webkit-transition: transform 0.1s linear;
+  -moz-transition: transform 0.1s linear;
+  -ms-transition: transform 0.1s linear;
+  -o-transition: transform 0.1s linear;
+  transition: transform 0.1s linear; */
+}
+.ship-body {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+/* --------------Overlay------------- */
+
+.overlaybuttons {
+  height: 100px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 300;
+  border-radius: 50%;
+}
+.overlaybuttons:hover {
+  background-color: rgba(0, 23, 128, 0.473);
+}
+
+.overlaybuttons__music {
+  color: white;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.fa-music,
+.fa-slash {
+  position: absolute;
+}
