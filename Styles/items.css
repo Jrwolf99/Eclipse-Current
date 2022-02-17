@@ -13,6 +13,8 @@
 }
 .ring {
   z-index: 100;
+  height: 1616px;
+  width: 1616px;
 }
 
 .stars {
