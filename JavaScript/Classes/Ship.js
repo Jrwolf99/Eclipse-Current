@@ -10,32 +10,35 @@ class Ship {
   }
 
   #moveForward() {
-    console.log("forward Chauncy!");
-    objectTransform(this.html, this.nextXYCoords[0], this.nextXYCoords[1], 0);
-    this.currXYCoords = this.nextXYCoords;
+    objectTransform(
+      this.html,
+      this.nextXYCoords[0],
+      this.nextXYCoords[1],
+      this.currShipRotationRadians + Math.PI / 2
+    );
   }
 
-  #moveRotate(direction) {
-    this.currShipRotationRadians = this.currShipRotationRadians + Math.PI / 90;
+  #moveRotate() {
     objectTransform(
       this.html,
       this.currXYCoords[0],
       this.currXYCoords[1],
-      this.currShipRotationRadians
+      this.currShipRotationRadians + Math.PI / 2
     );
   }
 
   #bounceBack() {}
 
-  #findShipNextRotationRadian() {}
-
-  #findShipsDirectionalUnitVector() {
+  #updateShipsDirectionalUnitVector() {
     const unitRadius = 1;
-    return polar2Rect(this.currShipRotationRadians, unitRadius);
+    this.directionalUnitVector = polar2Rect(
+      this.currShipRotationRadians,
+      unitRadius
+    );
   }
 
-  #findShipsNextCoords() {
-    return new Array(
+  #updateShipsNextCoords() {
+    this.nextXYCoords = new Array(
       this.currXYCoords[0] +
         this.directionalUnitVector[0] * this.shipForwardSpeed,
 
@@ -44,22 +47,32 @@ class Ship {
     );
   }
 
-  #updateShipParameters() {
-    this.directionalUnitVector = this.#findNewShipsDirectionalUnitVector();
-    this.nextXYCoords = this.#findShipsNextCoords();
+  #updateShipDirection(direction) {
+    if (direction == "left") {
+      this.currShipRotationRadians =
+        this.currShipRotationRadians - Math.PI / 90;
+    }
+    if (direction == "right") {
+      this.currShipRotationRadians =
+        this.currShipRotationRadians + Math.PI / 90;
+    }
   }
 
   eventLoop() {
-    this.#updateShipParameters();
+    this.#updateShipsDirectionalUnitVector();
+    this.#updateShipsNextCoords();
 
     if (this.currKeysPressedArray.includes(38)) {
+      this.currXYCoords = this.nextXYCoords;
       this.#moveForward();
     }
     if (this.currKeysPressedArray.includes(37)) {
-      this.#moveRotate("left");
+      this.#updateShipDirection("left");
+      this.#moveRotate();
     }
     if (this.currKeysPressedArray.includes(39)) {
-      this.#moveRotate("right");
+      this.#updateShipDirection("right");
+      this.#moveRotate();
     }
   }
 

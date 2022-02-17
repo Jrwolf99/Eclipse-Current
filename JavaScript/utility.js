@@ -1,5 +1,7 @@
-const objectTransform = function (Object, x, y, deg) {
-  Object.style.transform = `translate3d(${x}px, ${y}px, 0px) rotate3d(0, 0, 1, ${deg}deg)`;
+const objectTransform = function (Object, x, y, radians) {
+  Object.style.transform = `translate3d(${x}px, ${y}px, 0px) rotate3d(0, 0, 1, ${rad2Deg(
+    radians
+  )}deg)`;
 };
 
 var deg2Rad = function (degree) {
