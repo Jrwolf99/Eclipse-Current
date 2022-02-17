@@ -7,10 +7,6 @@ const startGame = () => {
 const endGame = () => {
   window.location.reload();
 };
-const handleLoad = () => {
-  centerCamera("500px");
-};
-
 
 const animate = () => {
   animationObjectsArray.forEach((object) => {
@@ -19,9 +15,12 @@ const animate = () => {
   window.requestAnimationFrame(animate);
 };
 
-//GLOBAL/////////////
-window.addEventListener("load", handleLoad);
+const handleLoad = () => {
+  centerCamera("500px");
+};
 
+/***********GLOBAL****************************/
+window.addEventListener("load", handleLoad);
 let animationObjectsArray = [];
 animate();
-/////////////////////
+/***********************************************/
