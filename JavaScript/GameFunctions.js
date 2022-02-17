@@ -1,7 +1,7 @@
 
 
 const startGame = () => {
-   centerCamera();
+   centerCamera("1165px");
    changeScreenOverlayElements();
    createShip();
    createObstacle();
@@ -17,10 +17,10 @@ const endGame = () => {
 
 
 
-const centerCamera = () => {
+const centerCamera = (height) => {
   const myMap = document.querySelector('.map');
   let cameraCenter = myMap.offsetWidth / 2 - window.innerWidth / 2;
-  myMap.style.transform = `translate3d(-${cameraCenter}px, -1165px, 0px) rotate3d(0, 0, 1, 0deg)`;
+  myMap.style.transform = `translate3d(-${cameraCenter}px, -${height}, 0px) rotate3d(0, 0, 1, 0deg)`;
 }
 
 const changeScreenOverlayElements = () => {
@@ -35,8 +35,9 @@ const changeScreenOverlayElements = () => {
 
 
 const createShip = () => {
-  
+  animationObjectsArray.push(new Ship);
 }
 const createObstacle = () => {
+  animationObjectsArray.push(new Obstacle);
   
 }
