@@ -11,7 +11,6 @@ const handleLoad = () => {
   centerCamera("500px");
 };
 
-const handleKeyDown = () => {};
 
 const animate = () => {
   animationObjectsArray.forEach((object) => {

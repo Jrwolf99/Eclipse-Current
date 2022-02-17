@@ -1,18 +1,5 @@
 
 
-const startGame = () => {
-   centerCamera("1165px");
-   changeScreenOverlayElements();
-   createShip();
-   createObstacle();
-}
-
-const endGame = () => {
-  window.location.reload();
-};
-
-
-
 ////////////////////////////////////////////////
 
 
