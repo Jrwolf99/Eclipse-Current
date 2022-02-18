@@ -1,9 +1,14 @@
+// class ParticleArray extends Array {
+//   constructor() {
+//     super();
+//   }
+// }
+
 class Particle {
   constructor(directionalVector, currXYCoords, ParentHtml) {
     this.directionalVector = directionalVector;
     [this.xPos, this.yPos] = currXYCoords;
     this.size = Math.random() * 20 + 1;
-
     this.particleSpeed = Math.random() * -7;
     this.html = document.createElement("div");
     this.ParentHtml = ParentHtml;
@@ -15,7 +20,6 @@ class Particle {
     this.html.style.height = `${this.size}px`;
     this.html.style.background = `${this.color}`;
     objectTransform(this.html, this.xPos, this.yPos, 0);
-
     this.ParentHtml.insertAdjacentElement("afterend", this.html);
   }
 
@@ -23,10 +27,5 @@ class Particle {
     this.xPos += this.directionalVector[0] * this.particleSpeed;
     this.yPos += this.directionalVector[1] * this.particleSpeed;
     if (this.size > 0.2) this.size -= 2;
-  }
-
-  remove() {
-    particlesArray.shift();
-    this.html.remove();
   }
 }

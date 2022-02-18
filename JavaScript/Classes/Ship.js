@@ -10,23 +10,24 @@ class Ship {
     this.exhaustParticlesArray = [];
   }
 
-  #createShipExhaust() {
-    this.exhaustParticlesArray.forEach((particle) => {
-      particle.move();
-      particle.draw();
-      if (this.exhaustParticlesArray[0].size <= 0.2) {
-        this.exhaustParticlesArray[0].remove(this.exhaustParticlesArray);
-      }
-    });
+  #deleteShipExhaust() {
+    this.exhaustParticlesArray[0].html.remove();
+    this.exhaustParticlesArray.shift();
+  }
 
+  #createShipExhaust() {
     this.exhaustParticlesArray.push(
       new Particle(this.directionalUnitVector, this.currXYCoords, this.html)
     );
+    this.exhaustParticlesArray.forEach((particle) => {
+      particle.draw();
+      particle.move();
+    });
+    if (this.exhaustParticlesArray[0].size <= 0.2) this.#deleteShipExhaust();
   }
 
   #moveForward() {
     if (this.shipForwardSpeed < 8) this.shipForwardSpeed += 0.05;
-
     this.currXYCoords = this.nextXYCoords;
     objectTransform(
       this.html,
@@ -95,18 +96,24 @@ class Ship {
     }
   }
 
-  handleKeyDown(e) {
-    //add Key Press Instruction
+  #addShipMovementInstruction(e) {
     if (this.currKeysPressedArray.includes(e.keyCode) == false) {
       this.currKeysPressedArray.push(e.keyCode);
     }
   }
 
-  handleKeyUp(e) {
-    //remove Key Press Instruction
+  #removeShipMovementInstruction(e) {
     const keyCodePressedIndex = this.currKeysPressedArray.indexOf(e.keyCode);
     this.currKeysPressedArray.splice(keyCodePressedIndex, 1);
+  }
 
-    e.keyCode == "38" && this.#resetShipForwardSpeed();
+  handleKeyDown(e) {
+    this.#addShipMovementInstruction(e);
+  }
+
+  handleKeyUp(e) {
+    this.#removeShipMovementInstruction(e);
+    if (e.keyCode == "38") this.#resetShipForwardSpeed();
+    while (this.exhaustParticlesArray.length !== 0) this.#deleteShipExhaust();
   }
 }
