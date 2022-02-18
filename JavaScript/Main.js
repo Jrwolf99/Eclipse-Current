@@ -3,6 +3,7 @@ const startGame = () => {
   changeScreenOverlayElements();
   createShip();
   createObstacle();
+  createCameraController();
 };
 const endGame = () => {
   window.location.reload();

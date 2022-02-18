@@ -15,10 +15,21 @@ const changeScreenOverlayElements = () => {
 const createShip = () => {
   const myShip = new Ship();
   animationObjectsArray.push(myShip);
-  window.addEventListener("keydown", (e) => myShip.handleKeyDown(e));
-  window.addEventListener("keyup", (e) => myShip.handleKeyUp(e));
+  window.addEventListener("keydown", (e) => myShip.shipHandleKeyDown(e));
+  window.addEventListener("keyup", (e) => myShip.shipHandleKeyUp(e));
 };
 
 const createObstacle = () => {
   // animationObjectsArray.push(new Obstacle());
+};
+
+const createCameraController = () => {
+  const myCameraController = new CameraController();
+  animationObjectsArray.push(myCameraController);
+  window.addEventListener("keydown", (e) =>
+    myCameraController.cameraHandleKeyDown(e)
+  );
+  window.addEventListener("keyup", (e) =>
+    myCameraController.cameraHandleKeyUp(e)
+  );
 };

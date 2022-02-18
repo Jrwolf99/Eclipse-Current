@@ -1,12 +1,12 @@
-class Ship {
+class Ship extends AnimationObject {
   constructor() {
+    super();
     this.currXYCoords = [0, 0];
     this.nextXYCoords = [0, 0];
     this.directionalUnitVector = [0, 0];
     this.currShipRotationRadians = -Math.PI / 2;
     this.shipForwardSpeed = 3;
     this.html = document.querySelector(".ship");
-    this.currKeysPressedArray = [];
     this.exhaustParticlesArray = [];
   }
 
@@ -100,23 +100,12 @@ class Ship {
     }
   }
 
-  #addShipMovementInstruction(e) {
-    if (this.currKeysPressedArray.includes(e.keyCode) == false) {
-      this.currKeysPressedArray.push(e.keyCode);
-    }
+  shipHandleKeyDown(e) {
+    this.handleKeyDown(e);
   }
 
-  #removeShipMovementInstruction(e) {
-    const keyCodePressedIndex = this.currKeysPressedArray.indexOf(e.keyCode);
-    this.currKeysPressedArray.splice(keyCodePressedIndex, 1);
-  }
-
-  handleKeyDown(e) {
-    this.#addShipMovementInstruction(e);
-  }
-
-  handleKeyUp(e) {
-    this.#removeShipMovementInstruction(e);
+  shipHandleKeyUp(e) {
+    this.handleKeyUp(e);
     if (e.keyCode == "38") this.#resetShipForwardSpeed();
     while (this.exhaustParticlesArray.length !== 0) this.#deleteShipExhaust();
   }
