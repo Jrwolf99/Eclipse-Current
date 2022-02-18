@@ -4,18 +4,24 @@ class Ship {
     this.nextXYCoords = [0, 0];
     this.directionalUnitVector = [0, 0];
     this.currShipRotationRadians = -Math.PI / 2;
-    this.shipForwardSpeed = 10;
+    this.shipForwardSpeed = 3;
     this.html = document.querySelector(".ship");
     this.currKeysPressedArray = [];
   }
 
   #moveForward() {
+    if (this.shipForwardSpeed < 8) this.shipForwardSpeed += 0.05;
+
     objectTransform(
       this.html,
       this.nextXYCoords[0],
       this.nextXYCoords[1],
       this.currShipRotationRadians + Math.PI / 2
     );
+  }
+
+  #resetShipForwardSpeed() {
+    this.shipForwardSpeed = 3;
   }
 
   #moveRotate() {
@@ -77,13 +83,17 @@ class Ship {
   }
 
   handleKeyDown(e) {
-    if (!this.currKeysPressedArray.includes(e.keyCode)) {
+    //add Key Press Instruction
+    if (this.currKeysPressedArray.includes(e.keyCode) == false) {
       this.currKeysPressedArray.push(e.keyCode);
     }
   }
 
   handleKeyUp(e) {
+    //remove Key Press Instruction
     const keyCodePressedIndex = this.currKeysPressedArray.indexOf(e.keyCode);
     this.currKeysPressedArray.splice(keyCodePressedIndex, 1);
+
+    e.keyCode == "38" && this.#resetShipForwardSpeed();
   }
 }
