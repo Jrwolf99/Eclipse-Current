@@ -1,14 +1,3 @@
-class ParticleArray extends Array {
-  constructor(directionalVector, currXYCoords, ParentHtml) {
-    super();
-  }
-
-  remove() {
-    particlesArray.shift();
-    this.html.remove();
-  }
-}
-
 class Particle {
   constructor(directionalVector, currXYCoords, ParentHtml) {
     this.directionalVector = directionalVector;
@@ -34,5 +23,10 @@ class Particle {
     this.xPos += this.directionalVector[0] * this.particleSpeed;
     this.yPos += this.directionalVector[1] * this.particleSpeed;
     if (this.size > 0.2) this.size -= 2;
+  }
+
+  remove() {
+    particlesArray.shift();
+    this.html.remove();
   }
 }
