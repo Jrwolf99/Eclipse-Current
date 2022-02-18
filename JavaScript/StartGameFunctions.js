@@ -20,5 +20,5 @@ const createShip = () => {
 };
 
 const createObstacle = () => {
-  animationObjectsArray.push(new Obstacle());
+  // animationObjectsArray.push(new Obstacle());
 };

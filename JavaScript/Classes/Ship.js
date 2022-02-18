@@ -7,21 +7,34 @@ class Ship {
     this.shipForwardSpeed = 3;
     this.html = document.querySelector(".ship");
     this.currKeysPressedArray = [];
+    this.exhaustParticlesArray = [];
+  }
+
+  #createShipExhaust() {
+    this.exhaustParticlesArray.forEach((particle) => {
+      particle.move();
+      particle.draw();
+      if (this.exhaustParticlesArray[0].size <= 0.2) {
+        this.exhaustParticlesArray[0].remove(this.exhaustParticlesArray);
+      }
+    });
+
+    this.exhaustParticlesArray.push(
+      new Particle(this.directionalUnitVector, this.currXYCoords, this.html)
+    );
   }
 
   #moveForward() {
     if (this.shipForwardSpeed < 8) this.shipForwardSpeed += 0.05;
 
+    this.currXYCoords = this.nextXYCoords;
     objectTransform(
       this.html,
       this.nextXYCoords[0],
       this.nextXYCoords[1],
       this.currShipRotationRadians + Math.PI / 2
     );
-  }
-
-  #resetShipForwardSpeed() {
-    this.shipForwardSpeed = 3;
+    this.#createShipExhaust();
   }
 
   #moveRotate() {
@@ -33,8 +46,9 @@ class Ship {
     );
   }
 
-  #bounceBack() {}
-
+  #resetShipForwardSpeed() {
+    this.shipForwardSpeed = 3;
+  }
   #updateShipsDirectionalUnitVector() {
     const unitRadius = 1;
     this.directionalUnitVector = polar2Rect(
@@ -69,7 +83,6 @@ class Ship {
     this.#updateShipsNextCoords();
 
     if (this.currKeysPressedArray.includes(38)) {
-      this.currXYCoords = this.nextXYCoords;
       this.#moveForward();
     }
     if (this.currKeysPressedArray.includes(37)) {

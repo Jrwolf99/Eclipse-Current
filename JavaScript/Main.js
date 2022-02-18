@@ -19,7 +19,7 @@ const handleLoad = () => {
   centerCamera("500px");
 };
 
-/***********GLOBAL****************************/
+/***********Main****************************/
 window.addEventListener("load", handleLoad);
 let animationObjectsArray = [];
 animate();
