@@ -4,6 +4,20 @@ const objectTransform = function (Object, x, y, radians) {
   )}deg)`;
 };
 
+const isOutsideRing = (currXYCoords) => {
+  const objectRadius = findMagnitude(currXYCoords);
+  const ringRadius = document.querySelector(".ring").clientWidth / 2 - 75;
+  if (objectRadius > ringRadius) {
+    return true;
+  }
+  return false;
+};
+
+const backUpElement = (currXYCoords) => {
+  let currPolarCoords = rect2Polar(currXYCoords[0], currXYCoords[1]);
+  return polar2Rect(currPolarCoords[0], currPolarCoords[1] - 10);
+};
+
 var deg2Rad = function (degree) {
   var radian = (degree * Math.PI) / 180;
   return radian;
@@ -12,6 +26,13 @@ var deg2Rad = function (degree) {
 var rad2Deg = function (radians) {
   var degree = (radians * 180) / Math.PI;
   return degree;
+};
+
+const findMagnitude = function (vector) {
+  let magnitudeVector = Math.sqrt(
+    Math.pow(vector[0], 2) + Math.pow(vector[1], 2)
+  );
+  return magnitudeVector;
 };
 
 /**
@@ -44,26 +65,13 @@ const getYCoordinateValueFromTranslate3D = function (input) {
   return parseInt(output);
 };
 
-/**
- * This is a function that converts cartesian
- * to polar.
- * @param {number} x x-coordinate to convert.
- * @param {number} y y-coordinate to convert.
- * @returns this returns an array with theta (in radians)
- *  of the coordinate and radius of the coordinate.
- */
 const rect2Polar = function (x, y) {
   var radianTheta = Math.atan2(y, x);
   var radius = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
   var arr = new Array(radianTheta, radius);
   return arr;
 };
-/**
- * This function converts polar coordinates to cartesian.
- * @param {number} radianTheta This is the theta of coordinate in radians.
- * @param {number} radius This is the radius of the coordinate.
- * @returns This returns an array with the x and y coordinates of the point inputed
- */
+
 const polar2Rect = function (radianTheta, radius) {
   var x = Math.cos(radianTheta) * radius;
   var y = Math.sin(radianTheta) * radius;

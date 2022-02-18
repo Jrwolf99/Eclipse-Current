@@ -36,6 +36,10 @@ class Ship {
       this.currShipRotationRadians + Math.PI / 2
     );
     this.#createShipExhaust();
+
+    if (isOutsideRing(this.currXYCoords)) {
+      this.currXYCoords = backUpElement(this.currXYCoords);
+    }
   }
 
   #moveRotate() {

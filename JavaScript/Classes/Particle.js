@@ -1,9 +1,3 @@
-// class ParticleArray extends Array {
-//   constructor() {
-//     super();
-//   }
-// }
-
 class Particle {
   constructor(directionalVector, currXYCoords, ParentHtml) {
     this.directionalVector = directionalVector;
