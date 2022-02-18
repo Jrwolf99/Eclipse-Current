@@ -16,10 +16,8 @@ var rad2Deg = function (radians) {
 
 /**
  * This is a function that finds the x-coordinate
- * of the current ball on the screen.
  * @param {string} input CSS Translate3d() format.
- * @returns a number which is the extracted x
- * coordinate for the ball.
+ * @returns a number which is the extracted x-coordinate
  */
 const getXCoordinateValueFromTranslate3D = function (input) {
   let output = input.toString();
@@ -33,10 +31,8 @@ const getXCoordinateValueFromTranslate3D = function (input) {
 
 /**
  * This is a function that finds the y-coordinate
- * of the current ball on the screen.
  * @param {string} input CSS Translate3d() format.
- * @returns a number which is the extracted y
- * coordinate for the ball.
+ * @returns a number which is the extracted y-coordinate
  */
 const getYCoordinateValueFromTranslate3D = function (input) {
   let output = input.toString();

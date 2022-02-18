@@ -55,7 +55,6 @@
 .bullet {
   height: 200px;
   width: 200px;
-  /* border-radius: 50%; */
   background-image: url("/Assets/SVGs/bullet.svg");
   background-size: 60%;
   background-position: center;
@@ -71,15 +70,9 @@
   justify-content: center;
   align-items: center;
 
-  height: 100px;
-  width: 100px;
+  height: 60px;
+  width: 60px;
   position: relative;
-
-  /* -webkit-transition: transform 0.1s linear;
-  -moz-transition: transform 0.1s linear;
-  -ms-transition: transform 0.1s linear;
-  -o-transition: transform 0.1s linear;
-  transition: transform 0.1s linear; */
 }
 .ship-body {
   height: 100%;
