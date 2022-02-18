@@ -1,6 +1,7 @@
 class AnimationObject {
   constructor() {
     this.currKeysPressedArray = [];
+    animationObjectsArray.push(myCameraController);
   }
 
   #addInstruction(e) {
