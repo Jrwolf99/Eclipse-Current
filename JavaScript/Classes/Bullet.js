@@ -9,6 +9,17 @@ class Bullet {
     this.html.className = "bullet";
   }
 
+  #updateRotation() {
+    [this.rotation] = rect2Polar(this.direction[0], this.direction[1]);
+    this.rotation += Math.PI / 2;
+    objectTransform(
+      this.html,
+      this.currXYCoords[0],
+      this.currXYCoords[1],
+      this.rotation
+    );
+  }
+
   #updateBulletDirection() {
     if (this.currXYCoords[0] > 0 && this.currXYCoords[1] < 0)
       this.direction = [-0.5, 0.5];
@@ -38,5 +49,6 @@ class Bullet {
     if (isOutsideRing(this.currXYCoords)) {
       this.#updateBulletDirection();
     }
+    this.#updateRotation();
   }
 }
