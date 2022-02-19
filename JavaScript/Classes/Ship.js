@@ -13,6 +13,7 @@ class Ship extends AnimationObjectInstructionHandler {
   #shootBullet() {
     let myBullet = new Bullet(this.currXYCoords, this.directionalUnitVector);
     animationObjectsArray.push(myBullet);
+
     this.html.insertAdjacentElement("afterend", myBullet.html);
   }
 

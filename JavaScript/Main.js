@@ -15,12 +15,11 @@ const animate = () => {
   window.requestAnimationFrame(animate);
 };
 
-const handleLoad = () => {
+window.onload = () => {
   centerCamera("500px");
 };
 
 /***********Main****************************/
-window.addEventListener("load", handleLoad);
 let animationObjectsArray = [];
 animate();
 /***********************************************/
