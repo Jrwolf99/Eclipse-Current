@@ -19,17 +19,4 @@ const createShip = () => {
   window.addEventListener("keyup", (e) => myShip.shipHandleKeyUp(e));
 };
 
-const createObstacle = () => {
-  // animationObjectsArray.push(new Obstacle());
-};
-
-const createCameraController = () => {
-  const myCameraController = new CameraController();
-  animationObjectsArray.push(myCameraController);
-  window.addEventListener("keydown", (e) =>
-    myCameraController.cameraHandleKeyDown(e)
-  );
-  window.addEventListener("keyup", (e) =>
-    myCameraController.cameraHandleKeyUp(e)
-  );
-};
+const createObstacle = () => {};

@@ -1,7 +1,6 @@
-class AnimationObject {
+class AnimationObjectInstructionHandler {
   constructor() {
     this.currKeysPressedArray = [];
-    animationObjectsArray.push(myCameraController);
   }
 
   #addInstruction(e) {
@@ -12,8 +11,6 @@ class AnimationObject {
   }
 
   #removeInstruction(e) {
-    console.log(this.currKeysPressedArray);
-
     const keyCodePressedIndex = this.currKeysPressedArray.indexOf(e.keyCode);
     this.currKeysPressedArray.splice(keyCodePressedIndex, 1);
 

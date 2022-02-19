@@ -1,4 +1,4 @@
-class Ship extends AnimationObject {
+class Ship extends AnimationObjectInstructionHandler {
   constructor() {
     super();
     this.currXYCoords = [0, 0];
@@ -8,6 +8,13 @@ class Ship extends AnimationObject {
     this.shipForwardSpeed = 3;
     this.html = document.querySelector(".ship");
     this.exhaustParticlesArray = [];
+  }
+
+  #shootBullet() {
+    let myBullet = new Bullet(this.currXYCoords, this.directionalUnitVector);
+    console.log(myBullet);
+    animationObjectsArray.push(myBullet);
+    this.html.insertAdjacentElement("afterend", myBullet.html);
   }
 
   #deleteShipExhaust() {
@@ -26,9 +33,21 @@ class Ship extends AnimationObject {
     if (this.exhaustParticlesArray[0].size <= 0.2) this.#deleteShipExhaust();
   }
 
+  #moveCameraWithShip() {
+    let myMap = document.querySelector(".map");
+    let cameraCenter = myMap.offsetWidth / 2 - window.innerWidth / 2;
+    objectTransform(
+      myMap,
+      -this.currXYCoords[0] / 2 - cameraCenter,
+      -this.currXYCoords[1] / 1.2 - 1165,
+      0
+    );
+  }
+
   #moveForward() {
     if (this.shipForwardSpeed < 8) this.shipForwardSpeed += 0.05;
     this.currXYCoords = this.nextXYCoords;
+
     objectTransform(
       this.html,
       this.nextXYCoords[0],
@@ -36,6 +55,7 @@ class Ship extends AnimationObject {
       this.currShipRotationRadians + Math.PI / 2
     );
     this.#createShipExhaust();
+    this.#moveCameraWithShip();
 
     if (isOutsideRing(this.currXYCoords)) {
       this.currXYCoords = backUpElement(this.currXYCoords);
@@ -51,9 +71,6 @@ class Ship extends AnimationObject {
     );
   }
 
-  #resetShipForwardSpeed() {
-    this.shipForwardSpeed = 3;
-  }
   #updateShipsDirectionalUnitVector() {
     const unitRadius = 1;
     this.directionalUnitVector = polar2Rect(
@@ -63,13 +80,12 @@ class Ship extends AnimationObject {
   }
 
   #updateShipsNextCoords() {
-    this.nextXYCoords = new Array(
+    this.nextXYCoords = [
       this.currXYCoords[0] +
         this.directionalUnitVector[0] * this.shipForwardSpeed,
-
       this.currXYCoords[1] +
-        this.directionalUnitVector[1] * this.shipForwardSpeed
-    );
+        this.directionalUnitVector[1] * this.shipForwardSpeed,
+    ];
   }
 
   #updateShipDirection(direction) {
@@ -102,11 +118,14 @@ class Ship extends AnimationObject {
 
   shipHandleKeyDown(e) {
     this.handleKeyDown(e);
+    if (this.currKeysPressedArray.includes(32)) {
+      this.#shootBullet();
+    }
   }
 
   shipHandleKeyUp(e) {
     this.handleKeyUp(e);
-    if (e.keyCode == "38") this.#resetShipForwardSpeed();
+    if (e.keyCode == "38") this.shipForwardSpeed = 3;
     while (this.exhaustParticlesArray.length !== 0) this.#deleteShipExhaust();
   }
 }
