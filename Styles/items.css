@@ -53,7 +53,6 @@
 }
 
 .bullet {
-  position: absolute;
   height: 200px;
   width: 200px;
   background-image: url("/Assets/SVGs/bullet.svg");
@@ -64,6 +63,11 @@
 
 .obstacle {
   background: url("/Assets/SVGs/AsteroidModelLarge.svg");
+  height: 200px;
+  width: 200px;
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .ship {

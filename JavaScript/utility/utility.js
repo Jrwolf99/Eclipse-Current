@@ -4,10 +4,13 @@ const objectTransform = function (Object, x, y, radians) {
   )}deg)`;
 };
 
+const findRingRadius = () => {
+  return document.querySelector(".ring").clientWidth / 2 - 75;
+};
+
 const isOutsideRing = (currXYCoords) => {
   const objectRadius = findMagnitude(currXYCoords);
-  const ringRadius = document.querySelector(".ring").clientWidth / 2 - 75;
-  if (objectRadius > ringRadius) {
+  if (objectRadius > findRingRadius()) {
     return true;
   }
   return false;

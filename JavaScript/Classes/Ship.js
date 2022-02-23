@@ -121,12 +121,12 @@ class Ship extends AnimationObjectInstructionHandler {
 
   shipHandleKeyDown(e) {
     this.handleKeyDown(e);
-    if (this.currKeysPressedArray.includes(32)) {
-      this.#shootBullet();
-    }
   }
 
   shipHandleKeyUp(e) {
+    if (this.currKeysPressedArray.includes(32)) {
+      this.#shootBullet();
+    }
     this.handleKeyUp(e);
     if (e.keyCode == "38") this.shipForwardSpeed = 3;
     while (this.exhaustParticlesArray.length !== 0) this.#deleteShipExhaust();
