@@ -1,7 +1,7 @@
-class Obstacle {
-  constructor() {
-    this.currXYCoords = [0, 0];
-  }
+// class Obstacle {
+//   constructor() {
+//     this.currXYCoords = [0, 0];
+//   }
 
-  eventLoop() {}
-}
+//   eventLoop() {}
+// }

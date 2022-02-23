@@ -11,12 +11,3 @@ const changeScreenOverlayElements = () => {
   myScoreboard.innerHTML =
     "<div class='bigdipper'> <img src='/Assets/SVGs/BigDipper.svg'></div>";
 };
-
-const createShip = () => {
-  const myShip = new Ship();
-  animationObjectsArray.push(myShip);
-  window.addEventListener("keydown", (e) => myShip.shipHandleKeyDown(e));
-  window.addEventListener("keyup", (e) => myShip.shipHandleKeyUp(e));
-};
-
-const createObstacle = () => {};

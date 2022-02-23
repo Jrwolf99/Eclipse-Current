@@ -8,6 +8,11 @@ class Ship extends AnimationObjectInstructionHandler {
     this.shipForwardSpeed = 3;
     this.html = document.querySelector(".ship");
     this.exhaustParticlesArray = [];
+
+    window.addEventListener("keydown", (e) => this.shipHandleKeyDown(e));
+    window.addEventListener("keyup", (e) => this.shipHandleKeyUp(e));
+
+    animationObjectsArray.push(this);
   }
 
   #shootBullet() {

@@ -1,8 +1,8 @@
 const startGame = () => {
   centerCamera("1165px");
   changeScreenOverlayElements();
-  createShip();
-  createObstacle();
+  new Ship();
+  // createObstacle();
 };
 const endGame = () => {
   window.location.reload();
