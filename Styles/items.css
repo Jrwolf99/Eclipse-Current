@@ -53,6 +53,7 @@
 }
 
 .bullet {
+  position: absolute;
   height: 200px;
   width: 200px;
   background-image: url("/Assets/SVGs/bullet.svg");

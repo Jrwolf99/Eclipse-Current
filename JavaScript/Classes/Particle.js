@@ -1,11 +1,11 @@
 class Particle {
-  constructor(directionalVector, currXYCoords, ParentHtml) {
+  constructor(directionalVector, currXYCoords) {
     this.directionalVector = directionalVector;
     [this.xPos, this.yPos] = currXYCoords;
     this.size = Math.random() * 20 + 1;
     this.particleSpeed = Math.random() * -7;
+    this.ParentHtml = document.querySelector(".border");
     this.html = document.createElement("div");
-    this.ParentHtml = ParentHtml;
     this.color = "rgb(255, 81, 0)";
   }
   draw() {
@@ -14,7 +14,8 @@ class Particle {
     this.html.style.height = `${this.size}px`;
     this.html.style.background = `${this.color}`;
     objectTransform(this.html, this.xPos, this.yPos, 0);
-    this.ParentHtml.insertAdjacentElement("afterend", this.html);
+
+    this.ParentHtml.appendChild(this.html);
   }
 
   move() {

@@ -7,6 +7,8 @@ class Bullet {
     this.rotation;
     this.html = document.createElement("div");
     this.html.className = "bullet";
+
+    document.querySelector(".border").appendChild(this.html);
   }
 
   #updateRotation() {

@@ -6,7 +6,7 @@ class Ship extends AnimationObjectInstructionHandler {
     this.directionalUnitVector = [0, 0];
     this.currShipRotationRadians = -Math.PI / 2;
     this.shipForwardSpeed = 3;
-    this.html = document.querySelector(".ship");
+    this.shiphtml = document.querySelector(".ship");
     this.exhaustParticlesArray = [];
 
     window.addEventListener("keydown", (e) => this.shipHandleKeyDown(e));
@@ -18,8 +18,6 @@ class Ship extends AnimationObjectInstructionHandler {
   #shootBullet() {
     let myBullet = new Bullet(this.currXYCoords, this.directionalUnitVector);
     animationObjectsArray.push(myBullet);
-
-    this.html.insertAdjacentElement("afterend", myBullet.html);
   }
 
   #deleteShipExhaust() {
@@ -29,7 +27,7 @@ class Ship extends AnimationObjectInstructionHandler {
 
   #createShipExhaust() {
     this.exhaustParticlesArray.push(
-      new Particle(this.directionalUnitVector, this.currXYCoords, this.html)
+      new Particle(this.directionalUnitVector, this.currXYCoords)
     );
     this.exhaustParticlesArray.forEach((particle) => {
       particle.draw();
@@ -54,7 +52,7 @@ class Ship extends AnimationObjectInstructionHandler {
     this.currXYCoords = this.nextXYCoords;
 
     objectTransform(
-      this.html,
+      this.shiphtml,
       this.nextXYCoords[0],
       this.nextXYCoords[1],
       this.currShipRotationRadians + Math.PI / 2
@@ -69,7 +67,7 @@ class Ship extends AnimationObjectInstructionHandler {
 
   #moveRotate() {
     objectTransform(
-      this.html,
+      this.shiphtml,
       this.currXYCoords[0],
       this.currXYCoords[1],
       this.currShipRotationRadians + Math.PI / 2
