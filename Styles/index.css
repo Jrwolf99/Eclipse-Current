@@ -43,10 +43,10 @@ html,
   width: 1800px;
   position: relative;
 
-  -webkit-transition: transform 0.8s ease-out;
-  -moz-transition: transform 0.8s ease-out;
-  -ms-transition: transform 0.8s ease-out;
-  -o-transition: transform 0.8s ease-out;
-  transition: transform 0.8s ease-out;
+  -webkit-transition: transform 0.4s ease-out;
+  -moz-transition: transform 0.4s ease-out;
+  -ms-transition: transform 0.4s ease-out;
+  -o-transition: transform 0.4s ease-out;
+  transition: transform 0.4s ease-out;
   contain: paint;
 }

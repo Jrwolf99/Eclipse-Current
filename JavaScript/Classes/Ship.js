@@ -39,7 +39,7 @@ class Ship extends AnimationObjectInstructionHandler {
     objectTransform(
       myMap,
       -this.currXYCoords[0] / 2 - cameraCenter,
-      -this.currXYCoords[1] / 1.2 - 1165,
+      -this.currXYCoords[1] / 1.1 - 1165,
       0
     );
   }
