@@ -6,11 +6,13 @@ class Obstacle {
     ];
     this.html = document.createElement("div");
     this.html.className = "obstacle";
-
+    this.hasBeenHit = false;
     document.querySelector(".border").appendChild(this.html);
     animationObjectsArray.push(this);
     objectTransform(this.html, this.currXYCoords[0], this.currXYCoords[1], 0);
   }
 
-  eventLoop() {}
+  eventLoop() {
+    if (this.hasBeenHit) console.log("CONFIRMED OBSTACLE RECEIVED MESSAGE");
+  }
 }

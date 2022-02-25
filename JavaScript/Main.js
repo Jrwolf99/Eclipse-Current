@@ -12,6 +12,7 @@ const animate = () => {
   animationObjectsArray.forEach((object) => {
     object.eventLoop();
   });
+
   window.requestAnimationFrame(animate);
 };
 
