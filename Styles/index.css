@@ -35,9 +35,7 @@ html,
 }
 
 .map {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
 
   height: 3000px;
   width: 1800px;
