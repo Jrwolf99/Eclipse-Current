@@ -3,6 +3,7 @@ const startGame = () => {
   changeScreenOverlayElements();
   let myShip = new Ship();
   let myObstacle = new Obstacle();
+  myCollisionDetector = new CollisionDetector();
 };
 const endGame = () => {
   window.location.reload();
@@ -22,6 +23,6 @@ window.onload = () => {
 
 /***********Main****************************/
 let animationObjectsArray = [];
-let myCollisionDetector = new CollisionDetector();
+let myCollisionDetector;
 animate();
 /***********************************************/

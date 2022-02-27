@@ -1,41 +1,60 @@
 class CollisionDetector {
   constructor() {
     animationObjectsArray.push(this);
-    this.ObstacleXYCoords;
-    this.ShipXYCoords;
-    this.ElementHasBeenHit = ["element", false];
+    this.BulletArray = [];
+    this.Obstacle;
+    this.Ship;
   }
 
-  checkForCollision(ObstacleXYCoords, detectionRadius, Object2) {
+  thereWasCollision(Object2, Object1, detectionRadius) {
     let distanceOfObject2to1 = findMagnitude([
-      Object2.currXYCoords[0] - ObstacleXYCoords[0],
-      Object2.currXYCoords[1] - ObstacleXYCoords[1],
+      Object2.currXYCoords[0] - Object1.currXYCoords[0],
+      Object2.currXYCoords[1] - Object1.currXYCoords[1],
     ]);
-
     if (distanceOfObject2to1 < detectionRadius) return true;
     return false;
   }
 
-  //todo Fix the nested if statements and also get this working to notify the elements that they have been hit
+  checkShipToObstacleHit() {
+    if (this.thereWasCollision(this.Ship, this.Obstacle, 100)) {
+      endGame();
+    }
+  }
+
+  checkShipToBulletHit() {
+    this.BulletArray.forEach((bullet) => {
+      if (this.thereWasCollision(this.Ship, bullet, 50)) {
+        endGame();
+      }
+    });
+  }
+  checkBulletToObstacle() {
+    if (this.thereWasCollision(this.Ship, this.Obstacle, 100)) {
+      this.Obstacle.hasBeenHit = true;
+    }
+  }
+
   eventLoop() {
     animationObjectsArray.forEach((element) => {
       if (element.constructor.name === "Obstacle") {
-        if (this.ElementHasBeenHit == ["Obstacle", true]) {
-          console.log(this.ElementHasBeenHit);
-
-          element.hasBeenHit = true;
-        }
-        this.ObstacleXYCoords = element.currXYCoords;
+        this.Obstacle = element;
       }
       if (element.constructor.name === "Ship") {
-        this.ShipXYCoords = element.currXYCoords;
+        this.Ship = element;
       }
-
       if (element.constructor.name === "Bullet") {
-        if (this.checkForCollision(this.ObstacleXYCoords, 100, element)) {
-          this.ElementHasBeenHit = ["Obstacle", true];
-        }
+        this.BulletArray.push(element);
       }
     });
+
+    if (
+      this.Ship !== null ||
+      this.Obstacle !== null ||
+      this.BulletArray !== null
+    ) {
+      this.checkShipToObstacleHit();
+      this.checkShipToBulletHit();
+      this.checkBulletToObstacle();
+    }
   }
 }

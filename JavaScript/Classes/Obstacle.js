@@ -12,7 +12,14 @@ class Obstacle {
     objectTransform(this.html, this.currXYCoords[0], this.currXYCoords[1], 0);
   }
 
+  explode() {
+    this.currXYCoords = [
+      (Math.random() * findRingRadius() - findRingRadius() / 2) * 1.5,
+      (Math.random() * findRingRadius() - findRingRadius() / 2) * 1.5,
+    ];
+  }
+
   eventLoop() {
-    if (this.hasBeenHit) console.log("CONFIRMED OBSTACLE RECEIVED MESSAGE");
+    if (this.hasBeenHit) this.explode();
   }
 }
