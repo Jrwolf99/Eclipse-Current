@@ -47,14 +47,8 @@ class CollisionDetector {
       }
     });
 
-    if (
-      this.Ship !== null ||
-      this.Obstacle !== null ||
-      this.BulletArray !== null
-    ) {
-      this.checkShipToObstacleHit();
-      this.checkShipToBulletHit();
-      this.checkBulletToObstacle();
-    }
+    this.checkShipToObstacleHit();
+    this.checkShipToBulletHit();
+    this.checkBulletToObstacle();
   }
 }
