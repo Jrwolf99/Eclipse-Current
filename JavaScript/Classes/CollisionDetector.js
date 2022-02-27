@@ -17,6 +17,7 @@ class CollisionDetector {
 
   checkShipToObstacleHit() {
     if (this.thereWasCollision(this.Ship, this.Obstacle, 100)) {
+      console.log("ship to obstacle");
       endGame();
     }
   }
@@ -24,14 +25,19 @@ class CollisionDetector {
   checkShipToBulletHit() {
     this.BulletArray.forEach((bullet) => {
       if (this.thereWasCollision(this.Ship, bullet, 50)) {
+        console.log("ship to bullet");
         endGame();
       }
     });
   }
   checkBulletToObstacle() {
-    if (this.thereWasCollision(this.Ship, this.Obstacle, 100)) {
-      this.Obstacle.hasBeenHit = true;
-    }
+    this.BulletArray.forEach((bullet) => {
+      if (this.thereWasCollision(bullet, this.Obstacle, 100)) {
+        console.log("bullet to obstacle");
+
+        this.Obstacle.hasBeenHit = true;
+      }
+    });
   }
 
   eventLoop() {
