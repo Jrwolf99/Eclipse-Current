@@ -16,26 +16,36 @@ class CollisionDetector {
   }
 
   checkShipToObstacleHit() {
-    if (this.thereWasCollision(this.Ship, this.Obstacle, 100)) {
-      console.log("ship to obstacle");
+    if (
+      this.thereWasCollision(this.Ship, this.Obstacle, 100) &&
+      !this.Ship.hasBeenHit
+    ) {
+      this.Ship.hasBeenHit = true;
+      console.log("END1");
       endGame();
     }
   }
 
   checkShipToBulletHit() {
     this.BulletArray.forEach((bullet) => {
-      if (this.thereWasCollision(this.Ship, bullet, 50)) {
-        console.log("ship to bullet");
+      if (
+        this.thereWasCollision(this.Ship, bullet, 50) &&
+        !this.Ship.hasBeenHit
+      ) {
+        this.Ship.hasBeenHit = true;
+        console.log("END2");
         endGame();
       }
     });
   }
   checkBulletToObstacle() {
     this.BulletArray.forEach((bullet) => {
-      if (this.thereWasCollision(bullet, this.Obstacle, 100)) {
-        console.log("bullet to obstacle");
-
+      if (
+        this.thereWasCollision(bullet, this.Obstacle, 100) &&
+        !this.Obstacle.hasBeenHit
+      ) {
         this.Obstacle.hasBeenHit = true;
+        bullet.deleteSelf();
       }
     });
   }

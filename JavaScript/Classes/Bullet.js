@@ -11,8 +11,15 @@ class Bullet {
     this.html = document.createElement("div");
     this.html.className = "bullet";
     animationObjectsArray.push(this);
-
     document.querySelector(".border").appendChild(this.html);
+  }
+
+  deleteSelf() {
+    const index = animationObjectsArray.indexOf(this);
+    if (index > -1) {
+      animationObjectsArray.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    this.html.remove();
   }
 
   #updateRotation() {

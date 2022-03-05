@@ -8,6 +8,7 @@ class Ship extends AnimationObjectInstructionHandler {
     this.shipForwardSpeed = 3;
     this.shiphtml = document.querySelector(".ship");
     this.exhaustParticlesArray = [];
+    this.hasBeenHit = false;
     animationObjectsArray.push(this);
     window.addEventListener("keydown", (e) => this.shipHandleKeyDown(e));
     window.addEventListener("keyup", (e) => this.shipHandleKeyUp(e));
@@ -24,10 +25,13 @@ class Ship extends AnimationObjectInstructionHandler {
 
   #createShipExhaust() {
     this.exhaustParticlesArray.push(
-      new Particle(this.directionalUnitVector, this.currXYCoords)
+      new Particle(
+        this.directionalUnitVector,
+        this.currXYCoords[0] + -50 * this.directionalUnitVector[0],
+        this.currXYCoords[1] + -50 * this.directionalUnitVector[1]
+      )
     );
     this.exhaustParticlesArray.forEach((particle) => {
-      particle.draw();
       particle.move();
     });
     if (this.exhaustParticlesArray[0].size <= 0.2) this.#deleteShipExhaust();
@@ -91,11 +95,11 @@ class Ship extends AnimationObjectInstructionHandler {
   #updateShipDirection(direction) {
     if (direction == "left") {
       this.currShipRotationRadians =
-        this.currShipRotationRadians - Math.PI / 90;
+        this.currShipRotationRadians - Math.PI / 50;
     }
     if (direction == "right") {
       this.currShipRotationRadians =
-        this.currShipRotationRadians + Math.PI / 90;
+        this.currShipRotationRadians + Math.PI / 50;
     }
   }
 

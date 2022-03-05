@@ -13,7 +13,6 @@ class Obstacle {
   }
 
   explode() {
-    console.log("EXPLODE");
     this.currXYCoords = [
       (Math.random() * findRingRadius() - findRingRadius() / 2) * 1.5,
       (Math.random() * findRingRadius() - findRingRadius() / 2) * 1.5,
