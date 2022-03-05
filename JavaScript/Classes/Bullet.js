@@ -10,16 +10,18 @@ class Bullet {
     this.rotation;
     this.html = document.createElement("div");
     this.html.className = "bullet";
-    animationObjectsArray.push(this);
     document.querySelector(".border").appendChild(this.html);
   }
 
   deleteSelf() {
     const index = animationObjectsArray.indexOf(this);
     if (index > -1) {
-      animationObjectsArray.splice(index, 1); // 2nd parameter means remove one item only
+      animationObjectsArray.splice(index, 1);
+      //move the bullet out of the way (and out of ring) to 2000,2000.
+      //this is a bad implementation and should be fixed.
+      this.currXYCoords = [2000, 2000];
+      this.html.remove();
     }
-    this.html.remove();
   }
 
   #updateRotation() {

@@ -15,9 +15,10 @@ class Ship extends AnimationObjectInstructionHandler {
   }
 
   #shootBullet() {
-    let myBullet = new Bullet(this.currXYCoords, this.directionalUnitVector);
+    let myBullet = animationObjectsArray.push(
+      new Bullet(this.currXYCoords, this.directionalUnitVector)
+    );
   }
-
   #deleteShipExhaust() {
     this.exhaustParticlesArray[0].html.remove();
     this.exhaustParticlesArray.shift();
