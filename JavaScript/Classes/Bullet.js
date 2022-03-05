@@ -18,7 +18,7 @@ class Bullet {
     if (index > -1) {
       animationObjectsArray.splice(index, 1);
       //move the bullet out of the way (and out of ring) to 2000,2000.
-      //this is a bad implementation and should be fixed.
+      //this is a bad and hacky implementation and should be fixed.
       this.currXYCoords = [2000, 2000];
       this.html.remove();
     }

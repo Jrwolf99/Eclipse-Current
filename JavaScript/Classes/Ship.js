@@ -27,7 +27,7 @@ class Ship extends AnimationObjectInstructionHandler {
   #createShipExhaust() {
     this.exhaustParticlesArray.push(
       new Particle(
-        this.directionalUnitVector,
+        [0, 0],
         this.currXYCoords[0] + -50 * this.directionalUnitVector[0],
         this.currXYCoords[1] + -50 * this.directionalUnitVector[1]
       )

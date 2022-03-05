@@ -6,23 +6,45 @@ class Obstacle {
     ];
     this.html = document.createElement("div");
     this.html.className = "obstacle";
+    this.explodeParticlesArray = [];
     this.hasBeenHit = false;
     document.querySelector(".border").appendChild(this.html);
     animationObjectsArray.push(this);
     objectTransform(this.html, this.currXYCoords[0], this.currXYCoords[1], 0);
   }
 
+  #deleteExplodeParticles() {
+    this.explodeParticlesArray[0].html.remove();
+    this.explodeParticlesArray.shift();
+  }
+
   #createExplodeParticles() {
-    console.log("ehdn");
+    for (let i = 0; i < 20; i++)
+      this.explodeParticlesArray.push(
+        new Particle(
+          [Math.random() - 0.5, Math.random() - 0.5],
+          this.currXYCoords[0],
+          this.currXYCoords[1]
+        )
+      );
+  }
+
+  #moveExplodeParticles() {
+    this.explodeParticlesArray.forEach((particle) => {
+      particle.move();
+      particle.size <= 0.2 && this.#deleteExplodeParticles();
+    });
   }
 
   explode() {
+    this.#createExplodeParticles();
+
     this.currXYCoords = [
       (Math.random() * findRingRadius() - findRingRadius() / 2) * 1.5,
       (Math.random() * findRingRadius() - findRingRadius() / 2) * 1.5,
     ];
+
     objectTransform(this.html, this.currXYCoords[0], this.currXYCoords[1], 0);
-    this.#createExplodeParticles();
     this.hasBeenHit = false;
   }
 
@@ -30,5 +52,6 @@ class Obstacle {
     if (this.hasBeenHit) {
       this.explode();
     }
+    this.#moveExplodeParticles();
   }
 }

@@ -15,6 +15,8 @@ class Particle {
   }
 
   move() {
+    this.xPos += this.directionalVector[0] * 20;
+    this.yPos += this.directionalVector[1] * 20;
     if (this.size > 0.2) this.size -= 0.11;
     this.html.style.transform = `translate3d(${this.xPos}px, ${this.yPos}px, 0px) scale3d(${this.size}, ${this.size}, ${this.size})`;
   }
