@@ -1,6 +1,7 @@
 class AnimationObjectInstructionHandler {
   constructor() {
     this.currKeysPressedArray = [];
+    this.shotButtonPressed = false;
   }
 
   #addInstruction(e) {

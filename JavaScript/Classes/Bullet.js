@@ -1,8 +1,8 @@
 class Bullet {
   constructor(currXYCoords, directionOfShot) {
     this.currXYCoords = [
-      currXYCoords[0] + 100 * directionOfShot[0],
-      currXYCoords[1] + 100 * directionOfShot[1],
+      currXYCoords[0] + 75 * directionOfShot[0],
+      currXYCoords[1] + 75 * directionOfShot[1],
     ];
     this.nextXYCoords;
     this.direction = directionOfShot;

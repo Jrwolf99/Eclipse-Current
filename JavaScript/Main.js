@@ -4,6 +4,8 @@ const startGame = () => {
   let myShip = new Ship();
   let myObstacle = new Obstacle();
   myCollisionDetector = new CollisionDetector();
+  const BackgroundSong = new Audio("/Assets/sounds/trialsong1.mp3");
+  BackgroundSong.volume = 0.4;
 };
 const endGame = () => {
   window.location.reload();

@@ -12,9 +12,13 @@ class Ship extends AnimationObjectInstructionHandler {
     animationObjectsArray.push(this);
     window.addEventListener("keydown", (e) => this.shipHandleKeyDown(e));
     window.addEventListener("keyup", (e) => this.shipHandleKeyUp(e));
+    this.ShotSound = new Audio("/Assets/sounds/Shot1.mp3");
   }
 
   #shootBullet() {
+    this.ShotSound.pause();
+    this.ShotSound.currentTime = 0;
+    this.ShotSound.play();
     let myBullet = animationObjectsArray.push(
       new Bullet(this.currXYCoords, this.directionalUnitVector)
     );
@@ -29,7 +33,9 @@ class Ship extends AnimationObjectInstructionHandler {
       new Particle(
         [0, 0],
         this.currXYCoords[0] + -50 * this.directionalUnitVector[0],
-        this.currXYCoords[1] + -50 * this.directionalUnitVector[1]
+        this.currXYCoords[1] + -50 * this.directionalUnitVector[1],
+        "rgb(255, 81, 0)",
+        1
       )
     );
     this.exhaustParticlesArray.forEach((particle) => {
@@ -123,13 +129,17 @@ class Ship extends AnimationObjectInstructionHandler {
 
   shipHandleKeyDown(e) {
     this.handleKeyDown(e);
+    if (this.currKeysPressedArray.includes(32) && !this.shotButtonPressed) {
+      this.shotButtonPressed = true;
+      this.#shootBullet();
+    }
   }
 
   shipHandleKeyUp(e) {
-    if (this.currKeysPressedArray.includes(32)) {
-      this.#shootBullet();
-    }
     this.handleKeyUp(e);
+
+    this.shotButtonPressed = false;
+
     if (e.keyCode == "38") this.shipForwardSpeed = 3;
     while (this.exhaustParticlesArray.length !== 0) this.#deleteShipExhaust();
   }

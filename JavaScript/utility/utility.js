@@ -58,6 +58,7 @@ const getXCoordinateValueFromTranslate3D = function (input) {
  * @param {string} input CSS Translate3d() format.
  * @returns a number which is the extracted y-coordinate
  */
+
 const getYCoordinateValueFromTranslate3D = function (input) {
   let output = input.toString();
   let startIndex;
