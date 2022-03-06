@@ -4,11 +4,22 @@ const startGame = () => {
   let myShip = new Ship();
   let myObstacle = new Obstacle();
   myCollisionDetector = new CollisionDetector();
-  const BackgroundSong = new Audio("/Assets/sounds/trialsong1.mp3");
-  BackgroundSong.volume = 0.4;
 };
 const endGame = () => {
   window.location.reload();
+};
+
+const toggleMusic = () => {
+  const myMusicButtonSlash = document.querySelector(".fa-slash");
+  if (BackgroundSong.duration > 0 && !BackgroundSong.paused) {
+    BackgroundSong.pause();
+    myMusicButtonSlash.style.color = "white";
+    return;
+  }
+  BackgroundSong.volume = 0.4;
+  BackgroundSong.play();
+
+  myMusicButtonSlash.style.color = "transparent";
 };
 
 const animate = () => {
@@ -26,5 +37,7 @@ window.onload = () => {
 /***********Main****************************/
 let animationObjectsArray = [];
 let myCollisionDetector;
+const BackgroundSong = new Audio("/Assets/sounds/trialsong1.mp3");
+
 animate();
 /***********************************************/
