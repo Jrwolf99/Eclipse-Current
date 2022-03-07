@@ -92,9 +92,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+
   z-index: 300;
   border-radius: 50%;
 }
@@ -108,8 +106,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
 .fa-music,
 .fa-slash {
   position: absolute;
+}
+
+.overlaybuttons__info {
+  color: white;
+  font-size: 50px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
 }
