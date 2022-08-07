@@ -36,10 +36,6 @@ const animate = () => {
   window.requestAnimationFrame(animate);
 };
 
-window.onload = () => {
-  centerCamera("500px");
-};
-
 /***********Main****************************/
 let animationObjectsArray = [];
 let myCollisionDetector;
