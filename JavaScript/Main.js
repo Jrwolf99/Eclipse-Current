@@ -1,5 +1,5 @@
 const startGame = () => {
-  centerCamera("1165px");
+  centerCamera(1165);
   changeScreenOverlayElements();
   let myShip = new Ship();
   let myObstacle = new Obstacle();
@@ -34,6 +34,10 @@ const animate = () => {
   });
 
   window.requestAnimationFrame(animate);
+};
+
+window.onload = () => {
+  centerCamera(500);
 };
 
 /***********Main****************************/

@@ -1,7 +1,8 @@
 const centerCamera = (height) => {
   const myMap = document.querySelector(".map");
   let cameraCenter = myMap.offsetWidth / 2 - window.innerWidth / 2;
-  myMap.style.transform = `translate3d(-${cameraCenter}px, -${height}, 0px) rotate3d(0, 0, 1, 0deg)`;
+  console.log("cameraCenter: ", cameraCenter, "Height: ", height);
+  objectTransform(myMap, -cameraCenter, -height, 0);
 };
 
 const changeScreenOverlayElements = () => {
