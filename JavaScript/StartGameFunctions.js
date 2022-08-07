@@ -10,5 +10,5 @@ const changeScreenOverlayElements = () => {
   myTitlescreen.remove();
   let myScoreboard = document.querySelector(".scoreboard");
   myScoreboard.innerHTML =
-    "<div class='bigdipper'> <img src='/Assets/SVGs/BigDipper.svg'></div>";
+    "<p class='score'>0</p><div class='bigdipper'><img src='/Assets/SVGs/BigDipper.svg'></div>";
 };

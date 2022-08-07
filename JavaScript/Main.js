@@ -15,6 +15,8 @@ const showInfo = () => {
   );
 };
 
+const updateScore = () => {};
+
 const toggleMusic = () => {
   const myMusicButtonSlash = document.querySelector(".fa-slash");
   if (BackgroundSong.duration > 0 && !BackgroundSong.paused) {

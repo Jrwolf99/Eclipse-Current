@@ -1,6 +1,7 @@
 class Ship extends AnimationObjectInstructionHandler {
   constructor() {
     super();
+    this.score = 0;
     this.currXYCoords = [0, 0];
     this.nextXYCoords = [0, 0];
     this.directionalUnitVector = [0, 0];
@@ -13,6 +14,12 @@ class Ship extends AnimationObjectInstructionHandler {
     window.addEventListener("keydown", (e) => this.shipHandleKeyDown(e));
     window.addEventListener("keyup", (e) => this.shipHandleKeyUp(e));
     this.ShotSound = new Audio("/Assets/sounds/Shot1.mp3");
+  }
+
+  updateScore() {
+    this.score++;
+    let myScore = document.querySelector(".score");
+    myScore.innerHTML = `${this.score}`;
   }
 
   #shootBullet() {

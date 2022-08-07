@@ -46,6 +46,7 @@ class CollisionDetector {
       ) {
         this.Obstacle.hasBeenHit = true;
         bullet.deleteSelf();
+        this.Ship.updateScore();
       }
     });
   }
