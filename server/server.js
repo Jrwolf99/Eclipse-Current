@@ -8,10 +8,10 @@ const io = new Server(server);
 var path = require("path");
 
 //we have to tell the express server that this root dir has all of out site assets.
-app.use(express.static(__dirname + "/"));
+app.use(express.static(__dirname + "./../client"));
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(path.resolve(__dirname + "/../client/index.html"));
 });
 
 io.on("connection", (socket) => {
