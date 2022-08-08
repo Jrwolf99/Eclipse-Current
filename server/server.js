@@ -19,6 +19,11 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
+
+  socket.on("name submission", (name) => {
+    console.log("name: " + name);
+    io.emit("name submission", name);
+  });
 });
 
 server.listen(3000, () => {

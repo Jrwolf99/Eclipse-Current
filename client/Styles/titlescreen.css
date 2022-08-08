@@ -15,7 +15,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
+  z-index: 200;
   height: 102px;
   width: 356px;
 }
@@ -28,8 +28,8 @@
   background-color: rgb(110, 7, 170);
   color: white;
 }
-.titlescreen__button--start {
-  z-index: 200;
+.namefield {
+  color: white;
 }
 
 .titlescreen__logo {
