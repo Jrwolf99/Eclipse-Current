@@ -1,7 +1,11 @@
 const startGame = () => {
   centerCamera(1165);
   changeScreenOverlayElements();
+
   let myShip = new Ship();
+  let secondShip = new Ship();
+  let ThirdShip = new Ship();
+
   let myObstacle = new Obstacle();
   myCollisionDetector = new CollisionDetector();
 };
@@ -14,8 +18,6 @@ const showInfo = () => {
     "Welcome to Eclipse! This is a game designed by Bailey Garner and developed by Jonathan Wolf. It is currently in progress, but feel free to use the arrow keys to control the ship, press space to shoot, and turn the sound on! (This app is best supported in Chrome or Firefox.)"
   );
 };
-
-const updateScore = () => {};
 
 const toggleMusic = () => {
   const myMusicButtonSlash = document.querySelector(".fa-slash");
@@ -34,7 +36,7 @@ const animate = () => {
   animationObjectsArray.forEach((object) => {
     object.eventLoop();
   });
-
+  // console.log(gamestate);
   window.requestAnimationFrame(animate);
 };
 
@@ -45,7 +47,17 @@ window.onload = () => {
 /***********Main****************************/
 let animationObjectsArray = [];
 let myCollisionDetector;
+let gamestate = "no state";
 const BackgroundSong = new Audio("/Assets/sounds/trialsong1.mp3");
 
 animate();
 /***********************************************/
+
+//todo: manage the gamestate to be recognized at 60 FPS
+
+// Handling other players
+//on gamestate transmission, animate new frame with new state
+socket.on("gamestate transmission", function (state) {
+  //update to new state
+  gamestate = state;
+});
