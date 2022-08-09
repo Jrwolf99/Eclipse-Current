@@ -1,14 +1,20 @@
-const startGame = () => {
+socket.on("game start", function (playerCount) {
+  startGameClient(playerCount);
+});
+
+const startGameClient = (playerCount) => {
   centerCamera(1165);
   changeScreenOverlayElements();
-
   let myShip = new Ship();
-  let secondShip = new Ship();
-  let ThirdShip = new Ship();
 
-  let myObstacle = new Obstacle();
-  myCollisionDetector = new CollisionDetector();
+  for (let i = 0; i < playerCount - 1; i++) {
+    let anEnemyShip = new EnemyShip();
+  }
+
+  // let myObstacle = new Obstacle();
+  // myCollisionDetector = new CollisionDetector();
 };
+
 const endGame = () => {
   window.location.reload();
 };
@@ -47,7 +53,7 @@ window.onload = () => {
 /***********Main****************************/
 let animationObjectsArray = [];
 let myCollisionDetector;
-let gamestate = "no state";
+let state = "no state";
 const BackgroundSong = new Audio("/Assets/sounds/trialsong1.mp3");
 
 animate();
@@ -57,7 +63,7 @@ animate();
 
 // Handling other players
 //on gamestate transmission, animate new frame with new state
-socket.on("gamestate transmission", function (state) {
+socket.on("gamestate transmission", function (gamestate) {
   //update to new state
-  gamestate = state;
+  state = gamestate;
 });

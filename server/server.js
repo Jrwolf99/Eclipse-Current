@@ -31,6 +31,11 @@ io.on("connection", (socket) => {
     playerList.push(name);
     io.emit("gamestate transmission", { playerList: playerList });
   });
+
+  socket.on("game start", (playerCount) => {
+    console.log("game started!");
+    io.emit("game start", playerCount);
+  });
 });
 
 server.listen(3000, () => {

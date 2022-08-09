@@ -75,14 +75,13 @@
   align-items: center;
   height: 50px;
   width: 50px;
-  position: relative;
-  z-index: 10;
-}
-.ship-body {
-  height: 100%;
-  width: 100%;
   position: absolute;
+  z-index: 10;
+
+  background-image: url("/Assets/SVGs/ship.svg");
+  background-repeat: no-repeat;
 }
+
 
 /* --------------Overlay------------- */
 

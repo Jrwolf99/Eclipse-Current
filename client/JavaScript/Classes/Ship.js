@@ -7,7 +7,16 @@ class Ship extends AnimationObjectInstructionHandler {
     this.directionalUnitVector = [0, 0];
     this.currShipRotationRadians = -Math.PI / 2;
     this.shipForwardSpeed = 3;
+
     this.shiphtml = document.querySelector(".ship");
+
+    this.shiphtml = document.createElement("div");
+    this.shiphtml.className = "ship";
+
+    document
+      .querySelector(".ring_glow")
+      .insertAdjacentElement("afterend", this.shiphtml);
+
     this.exhaustParticlesArray = [];
     this.hasBeenHit = false;
     animationObjectsArray.push(this);
