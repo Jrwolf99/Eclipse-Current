@@ -1,5 +1,5 @@
-class Bullet {
-  constructor(currXYCoords, directionOfShot) {
+class EnemyBullet {
+  constructor(currXYCoords, directionOfShot, uid) {
     this.currXYCoords = [
       currXYCoords[0] + 75 * directionOfShot[0],
       currXYCoords[1] + 75 * directionOfShot[1],
@@ -11,6 +11,9 @@ class Bullet {
     this.html = document.createElement("div");
     this.html.className = "bullet";
     document.querySelector(".border").appendChild(this.html);
+
+    this.uid = uid;
+    console.log("this bullet's UID: ", uid);
   }
 
   deleteSelf() {
@@ -21,8 +24,6 @@ class Bullet {
       //this is a bad and hacky implementation and should be fixed.
       this.currXYCoords = [2000, 2000];
       this.html.remove();
-
-      socket.emit("EnemyBulletDelete c2s");
     }
   }
 
@@ -48,26 +49,25 @@ class Bullet {
       this.direction = [0.5, -0.5];
   }
 
-  #updateBulletNextCoords() {
-    this.nextXYCoords = [
-      this.currXYCoords[0] + this.speed * this.direction[0],
-      this.currXYCoords[1] + this.speed * this.direction[1],
-    ];
+  #updateBulletNextCoords(bulletCoords) {
+    this.nextXYCoords = bulletCoords[0];
     this.currXYCoords = this.nextXYCoords;
   }
 
-  #moveForward() {
-    this.#updateBulletNextCoords();
+  #moveForward(bulletCoords) {
+    this.#updateBulletNextCoords(bulletCoords);
     objectTransform(this.html, this.currXYCoords[0], this.currXYCoords[1], 0);
   }
 
-  eventLoop() {
-    this.#moveForward();
+  moveEnemyBullet(bulletCoords) {
+    if (typeof bulletCoords === "undefined") return;
+
+    this.#moveForward(bulletCoords);
     if (isOutsideRing(this.currXYCoords)) {
       this.#updateBulletDirection();
     }
     this.#updateRotation();
-
-    return [this.nextXYCoords, this.direction];
   }
+
+  eventLoop() {}
 }

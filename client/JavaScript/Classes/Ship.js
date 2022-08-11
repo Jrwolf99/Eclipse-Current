@@ -8,10 +8,10 @@ class Ship extends AnimationObjectInstructionHandler {
     this.currShipRotationRadians = -Math.PI / 2;
     this.shipForwardSpeed = 3;
 
-    this.shiphtml = document.querySelector(".ship");
-
     this.shiphtml = document.createElement("div");
     this.shiphtml.className = "ship";
+
+    this.uid;
 
     document
       .querySelector(".ring_glow")
@@ -20,9 +20,13 @@ class Ship extends AnimationObjectInstructionHandler {
     this.exhaustParticlesArray = [];
     this.hasBeenHit = false;
     animationObjectsArray.push(this);
-    window.addEventListener("keydown", (e) => this.shipHandleKeyDown(e));
-    window.addEventListener("keyup", (e) => this.shipHandleKeyUp(e));
+    window.addEventListener("keydown", this.shipHandleKeyDown);
+    window.addEventListener("keyup", this.shipHandleKeyUp);
     this.ShotSound = new Audio("/Assets/sounds/Shot1.mp3");
+  }
+
+  setUID(uid) {
+    this.uid = uid;
   }
 
   updateScore() {
@@ -35,9 +39,22 @@ class Ship extends AnimationObjectInstructionHandler {
     this.ShotSound.pause();
     this.ShotSound.currentTime = 0;
     this.ShotSound.play();
+
     let myBullet = animationObjectsArray.push(
       new Bullet(this.currXYCoords, this.directionalUnitVector)
     );
+
+    // let count = 0;
+    // animationObjectsArray.forEach((object) => {
+    //   if (object instanceof Bullet) count++;
+    // });
+    // if (count > 5) {
+    //   animationObjectsArray
+    //     .find((object) => object instanceof Bullet)
+    //     .deleteSelf();
+    // }
+
+    socket.emit("EnemyBulletShot c2s");
   }
   #deleteShipExhaust() {
     this.exhaustParticlesArray[0].html.remove();
@@ -71,7 +88,7 @@ class Ship extends AnimationObjectInstructionHandler {
     );
   }
 
-  #moveForward() {
+  moveForward() {
     if (this.shipForwardSpeed < 8) this.shipForwardSpeed += 0.05;
     this.currXYCoords = this.nextXYCoords;
 
@@ -89,7 +106,7 @@ class Ship extends AnimationObjectInstructionHandler {
     }
   }
 
-  #moveRotate() {
+  moveRotate() {
     objectTransform(
       this.shiphtml,
       this.currXYCoords[0],
@@ -98,7 +115,7 @@ class Ship extends AnimationObjectInstructionHandler {
     );
   }
 
-  #updateShipsDirectionalUnitVector() {
+  updateShipsDirectionalUnitVector() {
     const unitRadius = 1;
     this.directionalUnitVector = polar2Rect(
       this.currShipRotationRadians,
@@ -106,7 +123,7 @@ class Ship extends AnimationObjectInstructionHandler {
     );
   }
 
-  #updateShipsNextCoords() {
+  updateShipsNextCoords() {
     this.nextXYCoords = [
       this.currXYCoords[0] +
         this.directionalUnitVector[0] * this.shipForwardSpeed,
@@ -115,7 +132,7 @@ class Ship extends AnimationObjectInstructionHandler {
     ];
   }
 
-  #updateShipDirection(direction) {
+  updateShipDirection(direction) {
     if (direction == "left") {
       this.currShipRotationRadians =
         this.currShipRotationRadians - Math.PI / 50;
@@ -127,36 +144,45 @@ class Ship extends AnimationObjectInstructionHandler {
   }
 
   eventLoop() {
-    this.#updateShipsDirectionalUnitVector();
-    this.#updateShipsNextCoords();
+    this.updateShipsDirectionalUnitVector();
+    this.updateShipsNextCoords();
 
     if (this.currKeysPressedArray.includes(38)) {
-      this.#moveForward();
+      this.moveForward();
     }
     if (this.currKeysPressedArray.includes(37)) {
-      this.#updateShipDirection("left");
-      this.#moveRotate();
+      this.updateShipDirection("left");
+      this.moveRotate();
     }
     if (this.currKeysPressedArray.includes(39)) {
-      this.#updateShipDirection("right");
-      this.#moveRotate();
+      this.updateShipDirection("right");
+      this.moveRotate();
     }
+
+    return [
+      this.currKeysPressedArray,
+      [
+        this.nextXYCoords[0],
+        this.nextXYCoords[1],
+        this.currShipRotationRadians,
+      ],
+    ];
   }
 
-  shipHandleKeyDown(e) {
+  shipHandleKeyDown = (e) => {
     this.handleKeyDown(e);
     if (this.currKeysPressedArray.includes(32) && !this.shotButtonPressed) {
       this.shotButtonPressed = true;
       this.#shootBullet();
     }
-  }
+  };
 
-  shipHandleKeyUp(e) {
+  shipHandleKeyUp = (e) => {
     this.handleKeyUp(e);
 
     this.shotButtonPressed = false;
 
     if (e.keyCode == "38") this.shipForwardSpeed = 3;
     while (this.exhaustParticlesArray.length !== 0) this.#deleteShipExhaust();
-  }
+  };
 }

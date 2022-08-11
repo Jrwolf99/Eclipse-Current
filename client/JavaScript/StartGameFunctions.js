@@ -1,7 +1,6 @@
 const centerCamera = (height) => {
   const myMap = document.querySelector(".map");
   let cameraCenter = myMap.offsetWidth / 2 - window.innerWidth / 2;
-  console.log("cameraCenter: ", cameraCenter, "Height: ", height);
   objectTransform(myMap, -cameraCenter, -height, 0);
 };
 

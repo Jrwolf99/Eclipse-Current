@@ -1,7 +1,3 @@
-socket.on("game start", function (playerCount) {
-  startGameClient(playerCount);
-});
-
 const startGameClient = (playerCount) => {
   centerCamera(1165);
   changeScreenOverlayElements();
@@ -32,17 +28,42 @@ const toggleMusic = () => {
     myMusicButtonSlash.style.color = "white";
     return;
   }
-  BackgroundSong.volume = 0.4;
+  BackgroundSong.volume = 0.1;
   BackgroundSong.play();
 
   myMusicButtonSlash.style.color = "transparent";
 };
 
 const animate = () => {
+  var gameStateData = {
+    keyspressedarray: [],
+    coords: [],
+    screenBullets: [],
+  };
+
+  let screenBullets = [];
+
   animationObjectsArray.forEach((object) => {
-    object.eventLoop();
+    var objectEventPayload = object.eventLoop();
+
+    if (object instanceof Ship) {
+      gameStateData = {
+        ...gameStateData,
+        keyspressedarray: objectEventPayload[0],
+        coords: objectEventPayload[1],
+      };
+    }
+
+    if (object instanceof Bullet) {
+      screenBullets.push(objectEventPayload);
+      gameStateData = {
+        ...gameStateData,
+        screenBullets: [...screenBullets],
+      };
+    }
   });
-  // console.log(gamestate);
+
+  socket.emit("gamestate c2s", gameStateData);
   window.requestAnimationFrame(animate);
 };
 
@@ -53,17 +74,7 @@ window.onload = () => {
 /***********Main****************************/
 let animationObjectsArray = [];
 let myCollisionDetector;
-let state = "no state";
 const BackgroundSong = new Audio("/Assets/sounds/trialsong1.mp3");
 
 animate();
 /***********************************************/
-
-//todo: manage the gamestate to be recognized at 60 FPS
-
-// Handling other players
-//on gamestate transmission, animate new frame with new state
-socket.on("gamestate transmission", function (gamestate) {
-  //update to new state
-  state = gamestate;
-});

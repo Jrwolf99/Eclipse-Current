@@ -21,7 +21,6 @@ class CollisionDetector {
       !this.Ship.hasBeenHit
     ) {
       this.Ship.hasBeenHit = true;
-      console.log("END1");
       endGame();
     }
   }
@@ -33,7 +32,6 @@ class CollisionDetector {
         !this.Ship.hasBeenHit
       ) {
         this.Ship.hasBeenHit = true;
-        console.log("END2");
         endGame();
       }
     });

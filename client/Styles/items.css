@@ -82,6 +82,21 @@
   background-repeat: no-repeat;
 }
 
+.enemy-ship {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  z-index: 10;
+
+  background-image: url("/Assets/SVGs/EnemyShip.svg");
+  background-repeat: no-repeat;
+}
+
+
+
 
 /* --------------Overlay------------- */
 
