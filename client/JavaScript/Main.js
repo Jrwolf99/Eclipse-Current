@@ -63,7 +63,7 @@ const animate = () => {
     }
   });
 
-  socket.emit("gamestate c2s", gameStateData);
+  // socket.emit("gamestate c2s", gameStateData);
   window.requestAnimationFrame(animate);
 };
 

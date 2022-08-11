@@ -54,7 +54,7 @@ class Ship extends AnimationObjectInstructionHandler {
     //     .deleteSelf();
     // }
 
-    socket.emit("EnemyBulletShot c2s");
+    // socket.emit("EnemyBulletShot c2s");
   }
   #deleteShipExhaust() {
     this.exhaustParticlesArray[0].html.remove();

@@ -7,7 +7,10 @@ var pList;
 form.addEventListener("submit", function (e) {
   e.preventDefault();
   if (input.value) {
-    socket.emit("name c2s", input.value);
+    wsEmit({
+      type: "name c2s",
+      name: input.value,
+    });
     input.value = "";
   }
   form.remove();
@@ -19,7 +22,7 @@ const createLI = (content) => {
   return item;
 };
 
-socket.on("playerlist s2c", function (playerList) {
+const addNameToTitlescreen = (playerList) => {
   pList = playerList;
   names.innerHTML = "";
   var playerCount = createLI("Players: " + playerList.length);
@@ -28,31 +31,31 @@ socket.on("playerlist s2c", function (playerList) {
     var playerName = createLI(playerList[i].name);
     names.appendChild(playerName);
   }
-});
-
-const startGameServer = () => {
-  socket.emit("gamestart c2s", pList.length);
 };
 
-socket.on("gamestart s2c", function (playerCount, playerList) {
-  startGameClient(playerCount);
+const startGameServer = () => {
+  // socket.emit("gamestart c2s", pList.length);
+};
 
-  animationObjectsArray.forEach((object) => {
-    if (object instanceof Ship) object.setUID(socket.id);
-  });
+// socket.on("gamestart s2c", function (playerCount, playerList) {
+//   startGameClient(playerCount);
 
-  playerList = playerList.filter((player) => player.uid != socket.id);
+//   animationObjectsArray.forEach((object) => {
+//     if (object instanceof Ship) object.setUID(socket.id);
+//   });
 
-  playerList.forEach((player) => {
-    for (let i = 0; i < animationObjectsArray.length; i++) {
-      let object = animationObjectsArray[i];
+//   playerList = playerList.filter((player) => player.uid != socket.id);
 
-      if (object instanceof EnemyShip) {
-        if (typeof object.uid === "undefined") {
-          object.setUID(player.uid);
-          break;
-        }
-      }
-    }
-  });
-});
+//   playerList.forEach((player) => {
+//     for (let i = 0; i < animationObjectsArray.length; i++) {
+//       let object = animationObjectsArray[i];
+
+//       if (object instanceof EnemyShip) {
+//         if (typeof object.uid === "undefined") {
+//           object.setUID(player.uid);
+//           break;
+//         }
+//       }
+//     }
+//   });
+// });

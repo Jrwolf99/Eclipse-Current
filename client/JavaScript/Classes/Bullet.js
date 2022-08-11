@@ -22,7 +22,7 @@ class Bullet {
       this.currXYCoords = [2000, 2000];
       this.html.remove();
 
-      socket.emit("EnemyBulletDelete c2s");
+      // socket.emit("EnemyBulletDelete c2s");
     }
   }
 
