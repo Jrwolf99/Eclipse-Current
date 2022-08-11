@@ -63,7 +63,10 @@ const animate = () => {
     }
   });
 
-  // socket.emit("gamestate c2s", gameStateData);
+  wsEmit({
+    type: "gamestate c2s",
+    gameStateData: gameStateData,
+  });
   window.requestAnimationFrame(animate);
 };
 

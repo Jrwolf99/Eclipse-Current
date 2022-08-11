@@ -34,28 +34,8 @@ const addNameToTitlescreen = (playerList) => {
 };
 
 const startGameServer = () => {
-  // socket.emit("gamestart c2s", pList.length);
+  wsEmit({
+    type: "gamestart c2s",
+    playerCount: pList.length,
+  });
 };
-
-// socket.on("gamestart s2c", function (playerCount, playerList) {
-//   startGameClient(playerCount);
-
-//   animationObjectsArray.forEach((object) => {
-//     if (object instanceof Ship) object.setUID(socket.id);
-//   });
-
-//   playerList = playerList.filter((player) => player.uid != socket.id);
-
-//   playerList.forEach((player) => {
-//     for (let i = 0; i < animationObjectsArray.length; i++) {
-//       let object = animationObjectsArray[i];
-
-//       if (object instanceof EnemyShip) {
-//         if (typeof object.uid === "undefined") {
-//           object.setUID(player.uid);
-//           break;
-//         }
-//       }
-//     }
-//   });
-// });

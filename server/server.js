@@ -5,7 +5,7 @@ const wss = new WebSocket.Server({ port: 3000 });
 
 let playerList = [];
 
-const handleOnConnection = (currUid) => {
+const handleOnConnection = (currUid, ws) => {
   playerList.push({
     uid: currUid,
     name: `${currUid}`,
@@ -15,6 +15,13 @@ const handleOnConnection = (currUid) => {
     "new user found! here is the list before they type their name:",
     playerList
   );
+
+  let msg = {
+    type: "register UID",
+    currUid: currUid,
+  };
+  msg = JSON.stringify(msg);
+  ws.send(msg);
 };
 
 const handleNameTransmission = (currUid, data) => {
@@ -28,11 +35,51 @@ const handleNameTransmission = (currUid, data) => {
   };
 };
 
+const handleGameStart = (data) => {
+  console.log("game started!");
+
+  return {
+    type: "gamestart s2c",
+    playerCount: data.playerCount,
+    playerList: playerList,
+  };
+};
+
+const handleGameStateChange = (currUid, data) => {
+  playerList.forEach((player, i) => {
+    if (player.uid === currUid) {
+      playerList[i] = { ...player, gameStateData: data.gameStateData };
+    }
+  });
+
+  return {
+    type: "gamestate s2c",
+    playerList: playerList,
+  };
+};
+
+const broadcastSend = (msg) => {
+  msg = JSON.stringify(msg);
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(msg);
+    }
+  });
+};
+const broadcastButMeSend = (msg, ws) => {
+  msg = JSON.stringify(msg);
+  wss.clients.forEach((client) => {
+    if (client !== ws && client.readyState === WebSocket.OPEN) {
+      client.send(msg);
+    }
+  });
+};
+
 wss.on("connection", (ws) => {
   console.log("new client connection!");
   let currUid = randomUUID();
 
-  handleOnConnection(currUid);
+  handleOnConnection(currUid, ws);
 
   ws.on("message", (data) => {
     data = JSON.parse(data);
@@ -41,72 +88,72 @@ wss.on("connection", (ws) => {
     switch (data.type) {
       case "name c2s":
         msg2send = handleNameTransmission(currUid, data);
+        broadcastSend(msg2send);
+
+        break;
+
+      case "gamestart c2s":
+        msg2send = handleGameStart(currUid, data);
+        broadcastSend(msg2send);
+
+        break;
+
+      case "gamestate c2s":
+        msg2send = handleGameStateChange(currUid, data);
+        broadcastButMeSend(msg2send, ws);
         break;
 
       default:
         break;
     }
 
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify(msg2send));
-      }
-    });
+    //potential problem, sending to everyone? maybe fixed by uids
   });
 
   ws.on("close", () => {
     console.log("Client has disconnected!");
+
+    playerList = playerList.filter((player) => {
+      return player.uid != currUid;
+    });
+
+    broadcastSend(handleNameTransmission(0, ""));
   });
 });
 
 //------------------------------------------
-// io.on("connection", (socket) => {
-//   console.log("a user connected", socket.id);
-//
 
-//   socket.on("disconnect", () => {
-//     console.log("user disconnected", socket.id);
+// socket.on("EnemyBulletShot c2s", () => {
+//   io.emit("EnemyBulletShot s2c", socket.id);
+// });
 
-//     playerList = playerList.filter((player) => {
-//       return player.uid != socket.id;
-//     });
-//     console.log("after disconnect: ", playerList);
-//   });
-
-//   socket.on("name c2s", (name) => {
-//     playerList.forEach((player, i) => {
-//       if (player.uid === socket.id) playerList[i] = { ...player, name: name };
-//     });
-
-//     io.emit("playerlist s2c", playerList);
-//   });
-
-//   socket.on("gamestart c2s", (playerCount) => {
-//     console.log("game started!");
-
-//     io.emit("gamestart s2c", playerCount, playerList);
-//   });
-
-//   socket.on("gamestate c2s", (gameStateData) => {
-//     playerList.forEach((player, i) => {
-//       if (player.uid === socket.id) {
-//         playerList[i] = { ...player, gameStateData: gameStateData };
-//       }
-//     });
-
-//     io.emit("gamestate s2c", playerList);
-//   });
-
-//   socket.on("EnemyBulletShot c2s", () => {
-//     io.emit("EnemyBulletShot s2c", socket.id);
-//   });
-
-//   // socket.on("EnemyBulletDelete c2s", () => {
-//   //   io.emit("EnemyBulletDelete s2c", socket.id);
-//   // });
+// socket.on("EnemyBulletDelete c2s", () => {
+//   io.emit("EnemyBulletDelete s2c", socket.id);
+// });
 // });
 
 /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 What needs to be communicated:
 

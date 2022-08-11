@@ -4,5 +4,7 @@ const ws = new WebSocket("ws://localhost:3000");
 //client project. All modules handle their own transmissions.
 
 const wsEmit = (msg) => {
-  ws.send(JSON.stringify(msg));
+  if (ws.readyState === ws.OPEN) {
+    ws.send(JSON.stringify(msg));
+  }
 };

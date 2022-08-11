@@ -1,3 +1,5 @@
+let myUID;
+
 ws.addEventListener("open", () => {
   console.log("we have connected!");
 });
@@ -10,18 +12,65 @@ ws.addEventListener("message", ({ data }) => {
   //and that type can allow us to pick out game state or event.
 
   switch (data.type) {
+    case "register UID":
+      myUID = data.currUid;
+      break;
     case "name s2c":
       addNameToTitlescreen(data.playerList);
       break;
-    case "check":
-      console.log(data.payload);
+    case "gamestart s2c":
+      handleGameStart(data);
       break;
+    case "gamestate s2c":
+      handleGameStateChange(data);
+      break;
+
     default:
       break;
   }
 });
 
-//Socket to move the enemy ships, bullets--------------------------------------
+// Functions that are executed as per instructions sent by server. ------------------------
+
+const handleGameStart = ({ playerList, playerCount }) => {
+  startGameClient(playerCount);
+
+  animationObjectsArray.forEach((object) => {
+    if (object instanceof Ship) object.setUID(myUID);
+  });
+
+  playerList = playerList.filter((player) => player.uid != myUID);
+
+  playerList.forEach((player) => {
+    for (let i = 0; i < animationObjectsArray.length; i++) {
+      console.log("count: ", i);
+
+      let object = animationObjectsArray[i];
+
+      if (object instanceof EnemyShip) {
+        if (typeof object.uid === "undefined") {
+          object.setUID(player.uid);
+          break;
+        }
+      }
+    }
+  });
+};
+
+const handleGameStateChange = ({ playerList }) => {
+  console.log("myUID: ", myUID);
+
+  playerList.forEach((player, i) => {
+    if (player.uid != myUID) {
+      moveEnemyShip(
+        playerList[i].gameStateData.keyspressedarray,
+        playerList[i].gameStateData.coords,
+        player.uid
+      );
+      moveEnemyBullets(playerList[i].gameStateData.screenBullets, player.uid);
+    }
+  });
+};
 
 const moveEnemyBullets = (screenBullets, uid) => {
   let count = 0;
@@ -42,27 +91,10 @@ const moveEnemyShip = (array, coords, uid) => {
   });
 };
 
-// socket.on("gamestate s2c", (playerList) => {
-//   playerList.forEach((player, i) => {
-//     if (player.uid != socket.id) {
-//       moveEnemyShip(
-//         playerList[i].gameStateData.keyspressedarray,
-//         playerList[i].gameStateData.coords,
-//         player.uid
-//       );
-//       moveEnemyBullets(playerList[i].gameStateData.screenBullets, player.uid);
-//     }
-//   });
-// });
 //----------------------------------------------------------------------
-
-//Socket to shoot enemy bullets-----------------------------------------
 
 const shootEnemyBullet = (uid) => {
   animationObjectsArray.forEach((object, i) => {
-    // console.log("object uid", object.uid);
-    // console.log("enemy uid", uid);
-
     if (object instanceof EnemyShip && object.uid === uid) {
       object.shootBullet();
     }
