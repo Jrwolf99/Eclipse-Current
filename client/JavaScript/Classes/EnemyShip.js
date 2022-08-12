@@ -31,14 +31,22 @@ class EnemyShip {
   }
 
   shootBullet() {
-    console.log("shooting!");
-
     this.ShotSound.pause();
     this.ShotSound.currentTime = 0;
     this.ShotSound.play();
     let myBullet = animationObjectsArray.push(
       new EnemyBullet(this.currXYCoords, this.directionalUnitVector, this.uid)
     );
+
+    let count = 0;
+    animationObjectsArray.forEach((object) => {
+      if (object instanceof EnemyBullet) count++;
+    });
+    if (count > 5) {
+      animationObjectsArray
+        .find((object) => object instanceof EnemyBullet)
+        .deleteSelf();
+    }
   }
 
   #deleteShipExhaust() {
@@ -104,9 +112,8 @@ class EnemyShip {
     this.currShipRotationRadians = coords[2];
   }
 
-  gamestateDataReflect(array, coords) {
+  eventLoop(coords, array) {
     this.updateShipsNextCoords(coords);
-
     this.updateShipsDirectionalUnitVector();
 
     if (array && array.includes(38)) {
@@ -121,10 +128,16 @@ class EnemyShip {
       this.moveRotate();
     }
 
+    if (array && array.includes(32) && this.shotButtonPressed == false) {
+      this.shootBullet();
+      this.shotButtonPressed = true;
+    }
+    if (array && !array.includes(32)) {
+      this.shotButtonPressed = false;
+    }
+
     if (array && array.length < 1 && this.exhaustParticlesArray.length > 0) {
       this.#deleteShipExhaust();
     }
   }
-
-  eventLoop() {}
 }

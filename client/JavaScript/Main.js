@@ -2,7 +2,6 @@ const startGameClient = (playerCount) => {
   centerCamera(1165);
   changeScreenOverlayElements();
   let myShip = new Ship();
-
   for (let i = 0; i < playerCount - 1; i++) {
     let anEnemyShip = new EnemyShip();
   }
@@ -34,32 +33,59 @@ const toggleMusic = () => {
   myMusicButtonSlash.style.color = "transparent";
 };
 
+var newPlayerList = {};
 const animate = () => {
   var gameStateData = {
     keyspressedarray: [],
-    coords: [],
-    screenBullets: [],
+    coordsarray: [],
+    bulletcoordsarray: [],
   };
 
   let screenBullets = [];
 
   animationObjectsArray.forEach((object) => {
-    var objectEventPayload = object.eventLoop();
+    var objectEventPayload;
 
     if (object instanceof Ship) {
+      objectEventPayload = object.eventLoop();
       gameStateData = {
         ...gameStateData,
         keyspressedarray: objectEventPayload[0],
-        coords: objectEventPayload[1],
+        coordsarray: objectEventPayload[1],
       };
     }
 
     if (object instanceof Bullet) {
+      objectEventPayload = object.eventLoop();
+
       screenBullets.push(objectEventPayload);
       gameStateData = {
         ...gameStateData,
-        screenBullets: [...screenBullets],
+        bulletcoordsarray: screenBullets,
       };
+    }
+
+    if (object instanceof EnemyShip) {
+      let enemyProperties = newPlayerList[object.uid];
+      enemyProperties &&
+        object.eventLoop(
+          newPlayerList[object.uid].gameStateData.coordsarray,
+          newPlayerList[object.uid].gameStateData.keyspressedarray
+        );
+    }
+
+    if (object instanceof EnemyBullet) {
+      let enemyProperties = newPlayerList[object.uid];
+      let enemyBulletsCount =
+        enemyProperties.gameStateData.bulletcoordsarray.length;
+
+      //TODO: fix the randomness of the bullet choice
+      enemyProperties &&
+        object.eventLoop(
+          newPlayerList[object.uid].gameStateData.bulletcoordsarray[
+            Math.floor(Math.random() * enemyBulletsCount)
+          ]
+        );
     }
   });
 

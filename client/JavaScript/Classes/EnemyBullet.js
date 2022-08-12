@@ -13,7 +13,6 @@ class EnemyBullet {
     document.querySelector(".border").appendChild(this.html);
 
     this.uid = uid;
-    console.log("this bullet's UID: ", uid);
   }
 
   deleteSelf() {
@@ -50,24 +49,24 @@ class EnemyBullet {
   }
 
   #updateBulletNextCoords(bulletCoords) {
-    this.nextXYCoords = bulletCoords[0];
+    this.nextXYCoords = bulletCoords;
     this.currXYCoords = this.nextXYCoords;
   }
 
-  #moveForward(bulletCoords) {
+  moveBullet(bulletCoords, direction) {
+    console.log("bulletCoords: ", bulletCoords);
+    console.log("direction: ", direction);
+
     this.#updateBulletNextCoords(bulletCoords);
+    this.direction = direction;
+
     objectTransform(this.html, this.currXYCoords[0], this.currXYCoords[1], 0);
   }
 
-  moveEnemyBullet(bulletCoords) {
-    if (typeof bulletCoords === "undefined") return;
+  eventLoop(data) {
+    if (typeof data === "undefined") return;
+    this.moveBullet(data[0], data[1]);
 
-    this.#moveForward(bulletCoords);
-    if (isOutsideRing(this.currXYCoords)) {
-      this.#updateBulletDirection();
-    }
     this.#updateRotation();
   }
-
-  eventLoop() {}
 }

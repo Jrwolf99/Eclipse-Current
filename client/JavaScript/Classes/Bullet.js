@@ -68,6 +68,6 @@ class Bullet {
     }
     this.#updateRotation();
 
-    return [this.nextXYCoords, this.direction];
+    return [this.currXYCoords, this.direction];
   }
 }

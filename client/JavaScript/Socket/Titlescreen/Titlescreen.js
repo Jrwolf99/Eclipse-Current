@@ -24,18 +24,21 @@ const createLI = (content) => {
 
 const addNameToTitlescreen = (playerList) => {
   pList = playerList;
+  let amountOfPlayers = Object.keys(playerList).length;
+
   names.innerHTML = "";
-  var playerCount = createLI("Players: " + playerList.length);
+  var playerCount = createLI("Players: " + amountOfPlayers);
   names.appendChild(playerCount);
-  for (var i = 0; i < playerList.length; i++) {
-    var playerName = createLI(playerList[i].name);
+
+  Object.keys(playerList).forEach((key) => {
+    var playerName = createLI(playerList[key].name);
     names.appendChild(playerName);
-  }
+  });
 };
 
 const startGameServer = () => {
   wsEmit({
     type: "gamestart c2s",
-    playerCount: pList.length,
+    playerCount: Object.keys(pList).length,
   });
 };

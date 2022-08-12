@@ -44,17 +44,15 @@ class Ship extends AnimationObjectInstructionHandler {
       new Bullet(this.currXYCoords, this.directionalUnitVector)
     );
 
-    // let count = 0;
-    // animationObjectsArray.forEach((object) => {
-    //   if (object instanceof Bullet) count++;
-    // });
-    // if (count > 5) {
-    //   animationObjectsArray
-    //     .find((object) => object instanceof Bullet)
-    //     .deleteSelf();
-    // }
-
-    // socket.emit("EnemyBulletShot c2s");
+    let count = 0;
+    animationObjectsArray.forEach((object) => {
+      if (object instanceof Bullet) count++;
+    });
+    if (count > 5) {
+      animationObjectsArray
+        .find((object) => object instanceof Bullet)
+        .deleteSelf();
+    }
   }
   #deleteShipExhaust() {
     this.exhaustParticlesArray[0].html.remove();
