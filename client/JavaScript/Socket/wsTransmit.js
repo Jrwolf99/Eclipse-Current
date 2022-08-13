@@ -1,3 +1,4 @@
+// const ws = new WebSocket("ws://localhost:3000");
 const ws = new WebSocket("wss://eclipse-server1.herokuapp.com/");
 
 //websocket transmissions are conducted throughout the whole
