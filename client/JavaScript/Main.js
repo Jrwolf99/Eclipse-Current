@@ -5,7 +5,6 @@ const startGameClient = (playerCount) => {
   for (let i = 0; i < playerCount - 1; i++) {
     let anEnemyShip = new EnemyShip();
   }
-
   // let myObstacle = new Obstacle();
   // myCollisionDetector = new CollisionDetector();
 };
@@ -38,14 +37,14 @@ const animate = () => {
   var gameStateData = {
     keyspressedarray: [],
     coordsarray: [],
-    bulletcoordsarray: [],
+    bulletcoordslist: {},
   };
 
-  let screenBullets = [];
-
+  //updating gamestate ----------------------
   animationObjectsArray.forEach((object) => {
     var objectEventPayload;
 
+    //1) call event loops and package the data to be sent -----------------------------
     if (object instanceof Ship) {
       objectEventPayload = object.eventLoop();
       gameStateData = {
@@ -57,14 +56,12 @@ const animate = () => {
 
     if (object instanceof Bullet) {
       objectEventPayload = object.eventLoop();
-
-      screenBullets.push(objectEventPayload);
-      gameStateData = {
-        ...gameStateData,
-        bulletcoordsarray: screenBullets,
-      };
+      let bullet = objectEventPayload[1];
+      let uid = objectEventPayload[0];
+      gameStateData.bulletcoordslist[uid] = bullet;
     }
 
+    // 3) upon receiving the data, assign the game state to their proper objects. ------------
     if (object instanceof EnemyShip) {
       let enemyProperties = newPlayerList[object.uid];
       enemyProperties &&
@@ -75,20 +72,16 @@ const animate = () => {
     }
 
     if (object instanceof EnemyBullet) {
-      let enemyProperties = newPlayerList[object.uid];
-      let enemyBulletsCount =
-        enemyProperties.gameStateData.bulletcoordsarray.length;
+      let bullet =
+        newPlayerList[object.shipUid].gameStateData.bulletcoordslist[
+          object.uid
+        ];
 
-      //TODO: fix the randomness of the bullet choice
-      enemyProperties &&
-        object.eventLoop(
-          newPlayerList[object.uid].gameStateData.bulletcoordsarray[
-            Math.floor(Math.random() * enemyBulletsCount)
-          ]
-        );
+      bullet && object.eventLoop(bullet);
     }
   });
 
+  // 2) send the data to the server on every frame.
   wsEmit({
     type: "gamestate c2s",
     gameStateData: gameStateData,

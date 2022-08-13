@@ -31,6 +31,14 @@ ws.addEventListener("message", ({ data }) => {
       handleGameStateChange(data);
       break;
 
+    case "bulletshoot s2c":
+      handleBulletShoot(data);
+      break;
+
+    case "deletebullet s2c":
+      handleBulletDelete(data);
+      break;
+
     default:
       break;
   }
@@ -66,4 +74,22 @@ const handleGameStart = ({ playerList, playerCount }) => {
 
 const handleGameStateChange = ({ playerList }) => {
   newPlayerList = playerList;
+};
+
+const handleBulletShoot = ({ bulletUID }) => {
+  for (let i = 0; i < animationObjectsArray.length; i++) {
+    let object = animationObjectsArray[i];
+    if (object instanceof EnemyShip) {
+      object.shootBullet(bulletUID);
+    }
+  }
+};
+
+const handleBulletDelete = ({ bulletUID }) => {
+  for (let i = 0; i < animationObjectsArray.length; i++) {
+    let object = animationObjectsArray[i];
+    if (object instanceof EnemyBullet && object.uid === bulletUID) {
+      object.deleteSelf();
+    }
+  }
 };

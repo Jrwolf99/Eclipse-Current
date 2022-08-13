@@ -35,15 +35,7 @@ class Ship extends AnimationObjectInstructionHandler {
     myScore.innerHTML = `${this.score}`;
   }
 
-  #shootBullet() {
-    this.ShotSound.pause();
-    this.ShotSound.currentTime = 0;
-    this.ShotSound.play();
-
-    let myBullet = animationObjectsArray.push(
-      new Bullet(this.currXYCoords, this.directionalUnitVector)
-    );
-
+  #manageBulletDeletion() {
     let count = 0;
     animationObjectsArray.forEach((object) => {
       if (object instanceof Bullet) count++;
@@ -53,6 +45,22 @@ class Ship extends AnimationObjectInstructionHandler {
         .find((object) => object instanceof Bullet)
         .deleteSelf();
     }
+  }
+
+  #shootBullet() {
+    this.ShotSound.pause();
+    this.ShotSound.currentTime = 0;
+    this.ShotSound.play();
+
+    let myBullet = new Bullet(this.currXYCoords, this.directionalUnitVector);
+    animationObjectsArray.push(myBullet);
+
+    this.#manageBulletDeletion();
+
+    wsEmit({
+      type: "bulletshoot c2s",
+      bulletUID: myBullet.uid,
+    });
   }
   #deleteShipExhaust() {
     this.exhaustParticlesArray[0].html.remove();

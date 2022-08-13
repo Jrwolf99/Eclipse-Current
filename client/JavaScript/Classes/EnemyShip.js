@@ -30,23 +30,19 @@ class EnemyShip {
     this.uid = uid;
   }
 
-  shootBullet() {
+  shootBullet(bulletUID) {
     this.ShotSound.pause();
     this.ShotSound.currentTime = 0;
     this.ShotSound.play();
-    let myBullet = animationObjectsArray.push(
-      new EnemyBullet(this.currXYCoords, this.directionalUnitVector, this.uid)
+
+    let myBullet = new EnemyBullet(
+      this.currXYCoords,
+      this.directionalUnitVector,
+      bulletUID,
+      this.uid
     );
 
-    let count = 0;
-    animationObjectsArray.forEach((object) => {
-      if (object instanceof EnemyBullet) count++;
-    });
-    if (count > 5) {
-      animationObjectsArray
-        .find((object) => object instanceof EnemyBullet)
-        .deleteSelf();
-    }
+    animationObjectsArray.push(myBullet);
   }
 
   #deleteShipExhaust() {
@@ -128,13 +124,14 @@ class EnemyShip {
       this.moveRotate();
     }
 
-    if (array && array.includes(32) && this.shotButtonPressed == false) {
-      this.shootBullet();
-      this.shotButtonPressed = true;
-    }
-    if (array && !array.includes(32)) {
-      this.shotButtonPressed = false;
-    }
+    //COMMENT TO BE DELETED AFTER RE-WRITING BULLETSHOOT VIA TRANSMISSION AND NOT LOCALLY HERE.
+    // if (array && array.includes(32) && this.shotButtonPressed == false) {
+    //   this.shootBullet();
+    //   this.shotButtonPressed = true;
+    // }
+    // if (array && !array.includes(32)) {
+    //   this.shotButtonPressed = false;
+    // }
 
     if (array && array.length < 1 && this.exhaustParticlesArray.length > 0) {
       this.#deleteShipExhaust();
