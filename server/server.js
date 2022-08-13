@@ -3,77 +3,10 @@ const { randomUUID } = require("crypto");
 
 const wss = new WebSocket.Server({ port: 3000 });
 
-let playerList = [];
+playerList = {};
+let gameStarted = false;
 
-const handleOnConnection = (currUid, ws) => {
-  playerList.push({
-    uid: currUid,
-    name: `${currUid}`,
-    gameStateData: { keyspressedarray: [] },
-  });
-  console.log(
-    "new user found! here is the list before they type their name:",
-    playerList
-  );
-
-  let msg = {
-    type: "register UID",
-    currUid: currUid,
-  };
-  msg = JSON.stringify(msg);
-  ws.send(msg);
-};
-
-const handleNameTransmission = (currUid, data) => {
-  playerList.forEach((player, i) => {
-    if (player.uid === currUid) playerList[i] = { ...player, name: data.name };
-  });
-  console.log(playerList);
-  return {
-    type: "name s2c",
-    playerList: playerList,
-  };
-};
-
-const handleGameStart = (data) => {
-  console.log("game started!");
-
-  return {
-    type: "gamestart s2c",
-    playerCount: data.playerCount,
-    playerList: playerList,
-  };
-};
-
-const handleGameStateChange = (currUid, data) => {
-  playerList.forEach((player, i) => {
-    if (player.uid === currUid) {
-      playerList[i] = { ...player, gameStateData: data.gameStateData };
-    }
-  });
-
-  return {
-    type: "gamestate s2c",
-    playerList: playerList,
-  };
-};
-
-const broadcastSend = (msg) => {
-  msg = JSON.stringify(msg);
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(msg);
-    }
-  });
-};
-const broadcastButMeSend = (msg, ws) => {
-  msg = JSON.stringify(msg);
-  wss.clients.forEach((client) => {
-    if (client !== ws && client.readyState === WebSocket.OPEN) {
-      client.send(msg);
-    }
-  });
-};
+// 1) receive the messages from a client -------------------------------------------
 
 wss.on("connection", (ws) => {
   console.log("new client connection!");
@@ -93,84 +26,124 @@ wss.on("connection", (ws) => {
         break;
 
       case "gamestart c2s":
-        msg2send = handleGameStart(currUid, data);
+        msg2send = handleGameStart(data);
+        gameStarted = true;
         broadcastSend(msg2send);
 
         break;
 
       case "gamestate c2s":
         msg2send = handleGameStateChange(currUid, data);
-        broadcastButMeSend(msg2send, ws);
+        gameStarted && broadcastButMeSend(msg2send, ws);
+        break;
+
+      case "bulletshoot c2s":
+        msg2send = handleBulletShoot(data);
+        gameStarted && broadcastButMeSend(msg2send, ws);
+        break;
+
+      case "deletebullet c2s":
+        msg2send = handleBulletDelete(data);
+        gameStarted && broadcastButMeSend(msg2send, ws);
         break;
 
       default:
         break;
     }
-
-    //potential problem, sending to everyone? maybe fixed by uids
   });
 
   ws.on("close", () => {
-    console.log("Client has disconnected!");
+    gameStarted = false;
+    playerList = {};
 
-    playerList = playerList.filter((player) => {
-      return player.uid != currUid;
-    });
-
-    broadcastSend(handleNameTransmission(0, ""));
+    broadcastSend(handleGameEnd());
   });
 });
 
-//------------------------------------------
+// 2) manage and package the data to be sent to all clients----------------------------------------------
 
-// socket.on("EnemyBulletShot c2s", () => {
-//   io.emit("EnemyBulletShot s2c", socket.id);
-// });
+const handleOnConnection = (currUid, ws) => {
+  playerList[currUid] = {
+    name: "blank",
+    gameStateData: {
+      keyspressedarray: [],
+      coordsarray: [],
+      bulletcoordslist: {},
+    },
+  };
 
-// socket.on("EnemyBulletDelete c2s", () => {
-//   io.emit("EnemyBulletDelete s2c", socket.id);
-// });
-// });
+  let msg = {
+    type: "register UID",
+    currUid: currUid,
+  };
+  msg = JSON.stringify(msg);
+  ws.send(msg);
+};
 
-/*
+const handleNameTransmission = (currUid, data) => {
+  playerList[currUid] = { ...playerList[currUid], name: data.name };
+  return {
+    type: "name s2c",
+    playerList: playerList,
+  };
+};
 
+const handleGameStart = (data) => {
+  console.log("game started!", data);
+  return {
+    type: "gamestart s2c",
+    playerCount: data.playerCount,
+    playerList: playerList,
+  };
+};
 
+const handleGameEnd = (data) => {
+  console.log("game ended!");
+  return {
+    type: "gameend s2c",
+  };
+};
 
+const handleGameStateChange = (currUid, data) => {
+  playerList[currUid] = {
+    ...playerList[currUid],
+    gameStateData: data.gameStateData,
+  };
 
+  return {
+    type: "gamestate s2c",
+    playerList: playerList,
+  };
+};
 
+const handleBulletShoot = (data) => {
+  return {
+    type: "bulletshoot s2c",
+    bulletUID: data.bulletUID,
+  };
+};
+const handleBulletDelete = (data) => {
+  return {
+    type: "deletebullet s2c",
+    bulletUID: data.bulletUID,
+  };
+};
 
+// 3) send the msg to all clients ----------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-What needs to be communicated:
-
-Ship
-----
-the coordinates for movement ===== send every event loop
-the commands for movement  ======= send every event loop
-
-bullet
--------
-bullet shot ========================= send once on bullet shot event
-bullet coordinates for movement ===== send every event loop
-bullet deletion ===================== send once on bullet delete event
-
-game start
-----------
-name send =========================== send once on name submission
-start game trigger ================== send once to start game.
-
-*/
+const broadcastSend = (msg) => {
+  msg = JSON.stringify(msg);
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(msg);
+    }
+  });
+};
+const broadcastButMeSend = (msg, ws) => {
+  msg = JSON.stringify(msg);
+  wss.clients.forEach((client) => {
+    if (client !== ws && client.readyState === WebSocket.OPEN) {
+      client.send(msg);
+    }
+  });
+};
