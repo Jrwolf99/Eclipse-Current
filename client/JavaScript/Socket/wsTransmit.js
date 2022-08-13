@@ -1,4 +1,4 @@
-const ws = new WebSocket("wss://mighty-cooks-smash-75-65-19-118.loca.lt");
+const ws = new WebSocket("wss://eclipse-server1.herokuapp.com/");
 
 //websocket transmissions are conducted throughout the whole
 //client project. All modules handle their own transmissions.
