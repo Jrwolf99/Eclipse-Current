@@ -1,10 +1,9 @@
 class Obstacle {
-  constructor() {
+  constructor(obstacleData) {
     this.currXYCoords = [
-      (Math.random() * findRingRadius() - findRingRadius() / 2) * 1,
-      (Math.random() * findRingRadius() - findRingRadius() / 2) * 1,
+      (obstacleData[0] * findRingRadius() - findRingRadius() / 2) * 1,
+      (obstacleData[1] * findRingRadius() - findRingRadius() / 2) * 1,
     ];
-
     this.html = document.createElement("div");
     this.html.className = "obstacle";
     this.explodeParticlesArray = [];

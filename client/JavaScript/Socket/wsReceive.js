@@ -46,8 +46,8 @@ ws.addEventListener("message", ({ data }) => {
 
 // Functions that are executed as per instructions sent by server. ------------------------
 
-const handleGameStart = ({ playerList, playerCount }) => {
-  startGameClient(playerCount);
+const handleGameStart = ({ playerList, playerCount, obstacleData }) => {
+  startGameClient(playerCount, obstacleData);
 
   animationObjectsArray.forEach((object, i) => {
     if (object instanceof Ship) object.setUID(myUID);

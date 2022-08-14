@@ -2,11 +2,16 @@ class CollisionDetector {
   constructor() {
     animationObjectsArray.push(this);
     this.BulletArray = [];
+    this.EnemyShipsArray = [];
     this.Obstacle;
     this.Ship;
+
+    console.log("collision detector made!");
   }
 
   thereWasCollision(Object2, Object1, detectionRadius) {
+    console.log("collision!");
+
     let distanceOfObject2to1 = findMagnitude([
       Object2.currXYCoords[0] - Object1.currXYCoords[0],
       Object2.currXYCoords[1] - Object1.currXYCoords[1],
@@ -49,21 +54,43 @@ class CollisionDetector {
     });
   }
 
+  checkBulletToEnemyShip() {
+    this.EnemyShipsArray.forEach((EnemyShip, i) => {
+      this.BulletArray.forEach((bullet) => {
+        if (
+          this.thereWasCollision(bullet, EnemyShip, 50) &&
+          !this.EnemyShipsArray[i].hasBeenHit
+        ) {
+          this.EnemyShipsArray[i].hasBeenHit = true;
+          bullet.deleteSelf();
+          this.Ship.updateScore();
+        }
+      });
+    });
+  }
+
   eventLoop() {
-    animationObjectsArray.forEach((element) => {
-      if (element.constructor.name === "Obstacle") {
-        this.Obstacle = element;
+    animationObjectsArray.forEach((object) => {
+      console.log("entered here");
+
+      if (object instanceof Obstacle) {
+        this.Obstacle = object;
       }
-      if (element.constructor.name === "Ship") {
-        this.Ship = element;
+      if (object instanceof Ship) {
+        this.Ship = object;
       }
-      if (element.constructor.name === "Bullet") {
-        this.BulletArray.push(element);
+      if (object instanceof EnemyShip) {
+        this.EnemyShipsArray.push(object);
+      }
+      if (object instanceof Bullet) {
+        this.BulletArray.push(object);
       }
     });
 
     this.checkShipToObstacleHit();
     this.checkShipToBulletHit();
     this.checkBulletToObstacle();
+
+    // this.checkBulletToEnemyShip();
   }
 }

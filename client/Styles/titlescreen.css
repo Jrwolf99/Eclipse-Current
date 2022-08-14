@@ -18,6 +18,9 @@
   z-index: 200;
   height: 102px;
   width: 356px;
+  gap: 20px;
+
+  transform: translateY(5rem);
 }
 
 .titlescreen__button {
@@ -27,20 +30,76 @@
 .titlescreen__button:hover {
   cursor: pointer;
   background-color: rgb(110, 7, 170);
-  color: white;
+}
+
+.titlescreen__button--start {
+
+  display: none;
 }
 
 .namefield {
-  color: white;
+  color: violet;
+  font-size: 2rem;
+  margin: auto;
+  text-align: center;
+
 }
+
+
+.namefield_form  {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+
+}
+
+.namefield_form > button {
+
+  width: 60%;
+  padding: .3em .5em;
+  border: 2px solid blueviolet;
+  background-color: transparent;
+  border-radius: 5px;
+
+  color: white;
+  font-size: 1rem;
+
+  
+}
+
+.namefield_form > button:hover {
+  cursor: pointer;
+  background-color: rgb(110, 7, 170);
+}
+
+
+
+.namefield_input {
+  background-color: transparent;
+  border: 2px solid blueviolet;
+  border-radius: 10px;
+  color: white;
+  font-size: 2rem;
+  padding: .5em;
+  
+
+}
+.namefield_input::placeholder{
+  color: violet;
+}
+
 
 .names {
   list-style-type: none;
+  font-size: 2rem;
+
 }
 
 .names>* {
-  font-size: 1.5rem;
-  color: white;
+  color: violet;
 }
 
 .titlescreen__logo {

@@ -1,12 +1,12 @@
-const startGameClient = (playerCount) => {
+const startGameClient = (playerCount, obstacleData) => {
   centerCamera(1165);
   changeScreenOverlayElements();
   let myShip = new Ship();
   for (let i = 0; i < playerCount - 1; i++) {
     let anEnemyShip = new EnemyShip();
   }
-  // let myObstacle = new Obstacle();
-  // myCollisionDetector = new CollisionDetector();
+  let myObstacle = new Obstacle(obstacleData);
+  // let myCollisionDetector = new CollisionDetector();
 };
 
 const endGame = () => {
@@ -79,6 +79,9 @@ const animate = () => {
 
       bullet && object.eventLoop(bullet);
     }
+    if (object instanceof CollisionDetector) {
+      object.eventLoop();
+    }
   });
 
   // 2) send the data to the server on every frame.
@@ -95,7 +98,6 @@ window.onload = () => {
 
 /***********Main****************************/
 let animationObjectsArray = [];
-let myCollisionDetector;
 const BackgroundSong = new Audio("/Assets/sounds/trialsong1.mp3");
 
 animate();

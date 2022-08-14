@@ -2,10 +2,14 @@ var form = document.querySelector(".namefield_form");
 var input = document.querySelector(".namefield_input");
 var names = document.querySelector(".names");
 
+var startButton = document.querySelector(".titlescreen__button--start");
+
 var pList;
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
+  startButton.style.display = "flex";
+
   if (input.value) {
     wsEmit({
       type: "name c2s",
@@ -24,11 +28,11 @@ const createLI = (content) => {
 
 const addNameToTitlescreen = (playerList) => {
   pList = playerList;
-  let amountOfPlayers = Object.keys(playerList).length;
+  // let amountOfPlayers = Object.keys(playerList).length;
 
   names.innerHTML = "";
-  var playerCount = createLI("Players: " + amountOfPlayers);
-  names.appendChild(playerCount);
+  // var playerCount = createLI("Players: " + amountOfPlayers);
+  // names.appendChild(playerCount);
 
   Object.keys(playerList).forEach((key) => {
     var playerName = createLI(playerList[key].name);
