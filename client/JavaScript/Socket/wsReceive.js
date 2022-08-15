@@ -42,6 +42,10 @@ ws.addEventListener("message", ({ data }) => {
       handleObstacleHit(data);
       break;
 
+    case "updatescore s2c":
+      handleScoreUpdate(data);
+      break;
+
     default:
       break;
   }
@@ -99,6 +103,15 @@ const handleObstacleHit = ({ nextXYCoords }) => {
     let object = animationObjectsArray[i];
     if (object instanceof Obstacle) {
       object.explode(nextXYCoords);
+    }
+  }
+};
+
+const handleScoreUpdate = ({ score }) => {
+  for (let i = 0; i < animationObjectsArray.length; i++) {
+    let object = animationObjectsArray[i];
+    if (object instanceof Ship) {
+      console.log("enemy score: ", score);
     }
   }
 };

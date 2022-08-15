@@ -33,6 +33,11 @@ class Ship extends AnimationObjectInstructionHandler {
     this.score++;
     let myScore = document.querySelector(".score");
     myScore.innerHTML = `${this.score}`;
+
+    wsEmit({
+      type: "updatescore c2s",
+      score: this.score,
+    });
   }
 
   #manageBulletDeletion() {
