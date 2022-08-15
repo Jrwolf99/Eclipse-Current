@@ -38,6 +38,10 @@ ws.addEventListener("message", ({ data }) => {
       handleBulletDelete(data);
       break;
 
+    case "obstaclehit s2c":
+      handleObstacleHit(data);
+      break;
+
     default:
       break;
   }
@@ -87,6 +91,14 @@ const handleBulletDelete = ({ bulletUID }) => {
     let object = animationObjectsArray[i];
     if (object instanceof EnemyBullet && object.uid === bulletUID) {
       object.deleteSelf();
+    }
+  }
+};
+const handleObstacleHit = ({ nextXYCoords }) => {
+  for (let i = 0; i < animationObjectsArray.length; i++) {
+    let object = animationObjectsArray[i];
+    if (object instanceof Obstacle) {
+      object.explode(nextXYCoords);
     }
   }
 };

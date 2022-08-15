@@ -40,17 +40,14 @@ class Obstacle {
     });
   }
 
-  explode() {
+  explode(nextXYCoords) {
     this.ExplosionSound.pause();
     this.ExplosionSound.currentTime = 0;
     this.ExplosionSound.play();
 
     this.#createExplodeParticles();
 
-    this.currXYCoords = [
-      (Math.random() * findRingRadius() - findRingRadius() / 2) * 1.5,
-      (Math.random() * findRingRadius() - findRingRadius() / 2) * 1.5,
-    ];
+    this.currXYCoords = nextXYCoords;
 
     objectTransform(this.html, this.currXYCoords[0], this.currXYCoords[1], 0);
     this.hasBeenHit = false;
@@ -58,7 +55,17 @@ class Obstacle {
 
   eventLoop() {
     if (this.hasBeenHit) {
-      this.explode();
+      let nextXYCoords = [
+        (Math.random() * findRingRadius() - findRingRadius() / 2) * 1.5,
+        (Math.random() * findRingRadius() - findRingRadius() / 2) * 1.5,
+      ];
+
+      this.explode(nextXYCoords);
+
+      wsEmit({
+        type: "obstaclehit c2s",
+        nextXYCoords: nextXYCoords,
+      });
     }
     this.#moveExplodeParticles();
   }
