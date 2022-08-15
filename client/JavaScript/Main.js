@@ -6,7 +6,7 @@ const startGameClient = (playerCount, obstacleData) => {
     let anEnemyShip = new EnemyShip();
   }
   let myObstacle = new Obstacle(obstacleData);
-  // let myCollisionDetector = new CollisionDetector();
+  let myCollisionDetector = new CollisionDetector();
 };
 
 const endGame = () => {
@@ -59,6 +59,10 @@ const animate = () => {
       let bullet = objectEventPayload[1];
       let uid = objectEventPayload[0];
       gameStateData.bulletcoordslist[uid] = bullet;
+    }
+
+    if (object instanceof Obstacle) {
+      object.eventLoop();
     }
 
     // 3) upon receiving the data, assign the game state to their proper objects. ------------

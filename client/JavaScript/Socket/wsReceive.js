@@ -19,7 +19,6 @@ ws.addEventListener("message", ({ data }) => {
       addNameToTitlescreen(data.playerList);
       break;
     case "gamestart s2c":
-      console.log("data: ", data);
       handleGameStart(data);
       break;
     case "gameend s2c":
@@ -68,8 +67,6 @@ const handleGameStart = ({ playerList, playerCount, obstacleData }) => {
       }
     }
   }
-
-  console.log("here is the player list: ", playerList);
 };
 
 const handleGameStateChange = ({ playerList }) => {

@@ -1,22 +1,21 @@
 class CollisionDetector {
   constructor() {
     animationObjectsArray.push(this);
-    this.BulletArray = [];
-    this.EnemyShipsArray = [];
+    this.BulletList = {};
+    this.EnemyShipsList = {};
     this.Obstacle;
     this.Ship;
-
-    console.log("collision detector made!");
   }
 
   thereWasCollision(Object2, Object1, detectionRadius) {
-    console.log("collision!");
-
     let distanceOfObject2to1 = findMagnitude([
       Object2.currXYCoords[0] - Object1.currXYCoords[0],
       Object2.currXYCoords[1] - Object1.currXYCoords[1],
     ]);
-    if (distanceOfObject2to1 < detectionRadius) return true;
+    if (distanceOfObject2to1 < detectionRadius) {
+      console.log("collision!");
+      return true;
+    }
     return false;
   }
 
@@ -31,7 +30,9 @@ class CollisionDetector {
   }
 
   checkShipToBulletHit() {
-    this.BulletArray.forEach((bullet) => {
+    Object.keys(this.BulletList).forEach((key) => {
+      let bullet = this.BulletList[key];
+
       if (
         this.thereWasCollision(this.Ship, bullet, 50) &&
         !this.Ship.hasBeenHit
@@ -41,28 +42,36 @@ class CollisionDetector {
       }
     });
   }
+
   checkBulletToObstacle() {
-    this.BulletArray.forEach((bullet) => {
+    Object.keys(this.BulletList).forEach((key) => {
+      let bullet = this.BulletList[key];
+
       if (
         this.thereWasCollision(bullet, this.Obstacle, 100) &&
         !this.Obstacle.hasBeenHit
       ) {
         this.Obstacle.hasBeenHit = true;
         bullet.deleteSelf();
+        delete this.BulletList[key];
         this.Ship.updateScore();
       }
     });
   }
 
   checkBulletToEnemyShip() {
-    this.EnemyShipsArray.forEach((EnemyShip, i) => {
-      this.BulletArray.forEach((bullet) => {
-        if (
-          this.thereWasCollision(bullet, EnemyShip, 50) &&
-          !this.EnemyShipsArray[i].hasBeenHit
-        ) {
-          this.EnemyShipsArray[i].hasBeenHit = true;
+    Object.keys(this.EnemyShipsList).forEach((enemyshipkey) => {
+      let EnemyShip = this.EnemyShipsList[enemyshipkey];
+
+      Object.keys(this.BulletList).forEach((bulletkey) => {
+        let bullet = this.BulletList[bulletkey];
+
+        console.log("bullet to enemy");
+
+        if (this.thereWasCollision(bullet, EnemyShip, 50)) {
+          this.Obstacle.hasBeenHit = true;
           bullet.deleteSelf();
+          delete this.BulletList[bulletkey];
           this.Ship.updateScore();
         }
       });
@@ -71,8 +80,6 @@ class CollisionDetector {
 
   eventLoop() {
     animationObjectsArray.forEach((object) => {
-      console.log("entered here");
-
       if (object instanceof Obstacle) {
         this.Obstacle = object;
       }
@@ -80,17 +87,22 @@ class CollisionDetector {
         this.Ship = object;
       }
       if (object instanceof EnemyShip) {
-        this.EnemyShipsArray.push(object);
+        if (!this.EnemyShipsList[object.uid]) {
+          console.log("enemyship added here");
+          this.EnemyShipsList[object.uid] = object;
+        }
       }
       if (object instanceof Bullet) {
-        this.BulletArray.push(object);
+        if (!this.BulletList[object.uid]) {
+          console.log("my bullet added here");
+          this.BulletList[object.uid] = object;
+        }
       }
     });
 
     this.checkShipToObstacleHit();
     this.checkShipToBulletHit();
     this.checkBulletToObstacle();
-
-    // this.checkBulletToEnemyShip();
+    this.checkBulletToEnemyShip();
   }
 }

@@ -19,7 +19,6 @@ class EnemyShip {
       .insertAdjacentElement("afterend", this.shiphtml);
 
     this.exhaustParticlesArray = [];
-    this.hasBeenHit = false;
     animationObjectsArray.push(this);
     window.addEventListener("keydown", this.shipHandleKeyDown);
     window.addEventListener("keyup", this.shipHandleKeyUp);
