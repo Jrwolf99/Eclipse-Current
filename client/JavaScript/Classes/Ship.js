@@ -37,6 +37,7 @@ class Ship extends AnimationObjectInstructionHandler {
     wsEmit({
       type: "updatescore c2s",
       score: this.score,
+      shipUID: this.uid,
     });
   }
 

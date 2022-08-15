@@ -29,6 +29,10 @@ class EnemyShip {
     this.uid = uid;
   }
 
+  updateScore(newScore) {
+    this.score = newScore;
+  }
+
   shootBullet(bulletUID) {
     this.ShotSound.pause();
     this.ShotSound.currentTime = 0;

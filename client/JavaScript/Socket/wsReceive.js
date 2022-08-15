@@ -107,11 +107,13 @@ const handleObstacleHit = ({ nextXYCoords }) => {
   }
 };
 
-const handleScoreUpdate = ({ score }) => {
+const handleScoreUpdate = ({ score, shipUID }) => {
   for (let i = 0; i < animationObjectsArray.length; i++) {
     let object = animationObjectsArray[i];
-    if (object instanceof Ship) {
-      console.log("enemy score: ", score);
+    if (object instanceof EnemyShip && object.uid === shipUID) {
+      object.updateScore(score);
+
+      console.log(`enemy ${shipUID} score: `, object.score);
     }
   }
 };
