@@ -3,6 +3,7 @@
 class EnemyShip {
   constructor() {
     this.score = 0;
+    this.name;
     this.currXYCoords = [0, 0];
     this.nextXYCoords = [0, 0];
     this.directionalUnitVector = [0, 0];
@@ -27,6 +28,10 @@ class EnemyShip {
 
   setUID(uid) {
     this.uid = uid;
+  }
+
+  setName(name) {
+    this.name = name;
   }
 
   updateScore(newScore) {

@@ -28,12 +28,7 @@ const createLI = (content) => {
 
 const addNameToTitlescreen = (playerList) => {
   pList = playerList;
-  // let amountOfPlayers = Object.keys(playerList).length;
-
   names.innerHTML = "";
-  // var playerCount = createLI("Players: " + amountOfPlayers);
-  // names.appendChild(playerCount);
-
   Object.keys(playerList).forEach((key) => {
     var playerName = createLI(playerList[key].name);
     names.appendChild(playerName);

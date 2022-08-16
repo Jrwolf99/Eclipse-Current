@@ -23,7 +23,7 @@ ws.addEventListener("message", ({ data }) => {
       break;
     case "gameend s2c":
       console.log("ending game!");
-      endGame();
+      endGame(data.scores);
       break;
 
     case "gamestate s2c":
@@ -57,7 +57,9 @@ const handleGameStart = ({ playerList, playerCount, obstacleData }) => {
   startGameClient(playerCount, obstacleData);
 
   animationObjectsArray.forEach((object, i) => {
-    if (object instanceof Ship) object.setUID(myUID);
+    if (object instanceof Ship) {
+      object.setUID(myUID);
+    }
   });
 
   let uidArray = Object.keys(playerList);
@@ -70,8 +72,15 @@ const handleGameStart = ({ playerList, playerCount, obstacleData }) => {
       if (object instanceof EnemyShip) {
         if (typeof object.uid === "undefined") {
           object.setUID(key);
-          break;
         }
+        if (typeof object.name === "undefined") {
+          object.setName(playerList[key].name);
+        }
+        break;
+      }
+
+      if (object instanceof Ship) {
+        object.setName(playerList[key].name);
       }
     }
   }

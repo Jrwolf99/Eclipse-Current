@@ -9,8 +9,45 @@ const startGameClient = (playerCount, obstacleData) => {
   let myCollisionDetector = new CollisionDetector();
 };
 
-const endGame = () => {
-  window.location.reload();
+const endGame = (scores) => {
+  if (typeof scores === "undefined") {
+    let playerScores = [];
+    animationObjectsArray.forEach((object) => {
+      if (object instanceof EnemyShip || object instanceof Ship) {
+        playerScores.push([object.name, object.score]);
+      }
+    });
+
+    wsEmit({
+      type: "gameend c2s",
+      scores: playerScores,
+    });
+    return;
+  }
+
+  let endgameScreen = document.querySelector(".endgame-screen");
+  let scoreboard = document.querySelector(".endgame-scoreboard");
+  endgameScreen.style.display = "flex";
+
+  let border = document.querySelector(".border");
+  border.remove();
+
+  animationObjectsArray.forEach((object) => {
+    if (typeof object.html != "undefined") {
+      object.html.style.display = "none";
+      object.html.remove();
+    }
+    delete object;
+  });
+
+  centerCamera(1165);
+
+  scores.forEach((score) => {
+    console.log("reached heere");
+    let scoreboardRow = document.createElement("tr");
+    scoreboardRow.innerHTML = `<td>${score[0]}</td><td>${score[1]}</td>`;
+    scoreboard.appendChild(scoreboardRow);
+  });
 };
 
 const showInfo = () => {

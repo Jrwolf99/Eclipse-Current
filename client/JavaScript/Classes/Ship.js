@@ -28,6 +28,9 @@ class Ship extends AnimationObjectInstructionHandler {
   setUID(uid) {
     this.uid = uid;
   }
+  setName(name) {
+    this.name = name;
+  }
 
   updateScore() {
     this.score++;
