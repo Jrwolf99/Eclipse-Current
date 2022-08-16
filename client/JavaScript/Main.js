@@ -43,7 +43,6 @@ const endGame = (scores) => {
   centerCamera(1165);
 
   scores.forEach((score) => {
-    console.log("reached heere");
     let scoreboardRow = document.createElement("tr");
     scoreboardRow.innerHTML = `<td>${score[0]}</td><td>${score[1]}</td>`;
     scoreboard.appendChild(scoreboardRow);

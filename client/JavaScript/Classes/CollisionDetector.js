@@ -13,7 +13,6 @@ class CollisionDetector {
       Object2.currXYCoords[1] - Object1.currXYCoords[1],
     ]);
     if (distanceOfObject2to1 < detectionRadius) {
-      console.log("collision!");
       return true;
     }
     return false;
@@ -66,8 +65,6 @@ class CollisionDetector {
       Object.keys(this.BulletList).forEach((bulletkey) => {
         let bullet = this.BulletList[bulletkey];
 
-        console.log("bullet to enemy");
-
         if (this.thereWasCollision(bullet, EnemyShip, 50)) {
           this.Obstacle.hasBeenHit = true;
           bullet.deleteSelf();
@@ -88,13 +85,11 @@ class CollisionDetector {
       }
       if (object instanceof EnemyShip) {
         if (!this.EnemyShipsList[object.uid]) {
-          console.log("enemyship added here");
           this.EnemyShipsList[object.uid] = object;
         }
       }
       if (object instanceof Bullet) {
         if (!this.BulletList[object.uid]) {
-          console.log("my bullet added here");
           this.BulletList[object.uid] = object;
         }
       }

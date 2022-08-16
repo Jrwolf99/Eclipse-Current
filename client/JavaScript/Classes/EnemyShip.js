@@ -132,15 +132,6 @@ class EnemyShip {
       this.moveRotate();
     }
 
-    //COMMENT TO BE DELETED AFTER RE-WRITING BULLETSHOOT VIA TRANSMISSION AND NOT LOCALLY HERE.
-    // if (array && array.includes(32) && this.shotButtonPressed == false) {
-    //   this.shootBullet();
-    //   this.shotButtonPressed = true;
-    // }
-    // if (array && !array.includes(32)) {
-    //   this.shotButtonPressed = false;
-    // }
-
     if (array && array.length < 1 && this.exhaustParticlesArray.length > 0) {
       this.#deleteShipExhaust();
     }

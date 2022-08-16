@@ -2,6 +2,7 @@ class Ship extends AnimationObjectInstructionHandler {
   constructor() {
     super();
     this.score = 0;
+    this.name;
     this.currXYCoords = [0, 0];
     this.nextXYCoords = [0, 0];
     this.directionalUnitVector = [0, 0];
@@ -35,7 +36,7 @@ class Ship extends AnimationObjectInstructionHandler {
   updateScore() {
     this.score++;
     let myScore = document.querySelector(".score");
-    myScore.innerHTML = `${this.score}`;
+    myScore.innerHTML = `${this.name}: ${this.score}`;
 
     wsEmit({
       type: "updatescore c2s",
