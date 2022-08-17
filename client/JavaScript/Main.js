@@ -9,22 +9,7 @@ const startGameClient = (playerCount, obstacleData) => {
   let myCollisionDetector = new CollisionDetector();
 };
 
-const endGame = (scores) => {
-  if (typeof scores === "undefined") {
-    let playerScores = [];
-    animationObjectsArray.forEach((object) => {
-      if (object instanceof EnemyShip || object instanceof Ship) {
-        playerScores.push([object.name, object.score]);
-      }
-    });
-
-    wsEmit({
-      type: "gameend c2s",
-      scores: playerScores,
-    });
-    return;
-  }
-
+const showEndScores = (scores) => {
   let endgameScreen = document.querySelector(".endgame-screen");
   let scoreboard = document.querySelector(".endgame-scoreboard");
   endgameScreen.style.display = "flex";
@@ -47,6 +32,25 @@ const endGame = (scores) => {
     scoreboardRow.innerHTML = `<td>${score[0]}</td><td>${score[1]}</td>`;
     scoreboard.appendChild(scoreboardRow);
   });
+};
+
+const endGame = (scores) => {
+  if (typeof scores === "undefined") {
+    let playerScores = [];
+    animationObjectsArray.forEach((object) => {
+      if (object instanceof EnemyShip || object instanceof Ship) {
+        playerScores.push([object.name, object.score]);
+      }
+    });
+
+    wsEmit({
+      type: "gameend c2s",
+      scores: playerScores,
+    });
+    return;
+  }
+
+  showEndScores(scores);
 };
 
 const showInfo = () => {
