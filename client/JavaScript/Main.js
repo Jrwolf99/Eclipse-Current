@@ -37,12 +37,12 @@ const endGame = (scores) => {
       object.html.style.display = "none";
       object.html.remove();
     }
-    delete object;
   });
 
   centerCamera(1165);
 
   scores.forEach((score) => {
+    console.log("Score!", score);
     let scoreboardRow = document.createElement("tr");
     scoreboardRow.innerHTML = `<td>${score[0]}</td><td>${score[1]}</td>`;
     scoreboard.appendChild(scoreboardRow);

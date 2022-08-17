@@ -65,10 +65,17 @@ const handleGameStart = ({ playerList, playerCount, obstacleData }) => {
   let uidArray = Object.keys(playerList);
   for (let i = 0; i < uidArray.length; i++) {
     let key = uidArray[i];
-    if (key === myUID) continue;
 
     for (let i = 0; i < animationObjectsArray.length; i++) {
       let object = animationObjectsArray[i];
+
+      if (object instanceof Ship && key === myUID) {
+        console.log("my ship name: ", playerList[key].name);
+        console.log("my playerlist: ", playerList);
+        object.setName(playerList[key].name);
+        break;
+      }
+
       if (object instanceof EnemyShip) {
         if (typeof object.uid === "undefined") {
           object.setUID(key);
@@ -76,11 +83,6 @@ const handleGameStart = ({ playerList, playerCount, obstacleData }) => {
         if (typeof object.name === "undefined") {
           object.setName(playerList[key].name);
         }
-        break;
-      }
-
-      if (object instanceof Ship) {
-        object.setName(playerList[key].name);
       }
     }
   }
