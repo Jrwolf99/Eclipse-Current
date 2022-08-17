@@ -56,7 +56,7 @@ ws.addEventListener("message", ({ data }) => {
 const handleGameStart = ({ playerList, playerCount, obstacleData }) => {
   startGameClient(playerCount, obstacleData);
 
-  animationObjectsArray.forEach((object, i) => {
+  animationObjectsArray.forEach((object) => {
     if (object instanceof Ship) {
       object.setUID(myUID);
     }

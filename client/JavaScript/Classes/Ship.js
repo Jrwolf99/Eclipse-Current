@@ -35,7 +35,9 @@ class Ship extends AnimationObjectInstructionHandler {
 
   updateScore() {
     this.score++;
-    let myScore = document.querySelector(".score");
+    let myScore = document.querySelector(".score0");
+
+    console.log("tosetinnerhtml1: ", myScore);
     myScore.innerHTML = `${this.name}: ${this.score}`;
 
     wsEmit({

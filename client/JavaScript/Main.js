@@ -1,6 +1,6 @@
 const startGameClient = (playerCount, obstacleData) => {
   centerCamera(1165);
-  changeScreenOverlayElements();
+  changeScreenOverlayElements(playerCount);
   let myShip = new Ship();
   for (let i = 0; i < playerCount - 1; i++) {
     let anEnemyShip = new EnemyShip();

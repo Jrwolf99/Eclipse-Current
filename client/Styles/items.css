@@ -43,12 +43,22 @@
   left: 500px;
   top: 200px;
 }
-.score {
+.score0 {
   position: absolute;
   left: 520px;
   top: 190px;
   color: grey;
   font-size: 15px;
+}
+.score1 {
+  position: absolute;
+  left: 610px;
+  top: 292px;
+  color: grey;
+  font-size: 15px;
+
+
+
 }
 
 .bullet {

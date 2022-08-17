@@ -36,6 +36,10 @@ class EnemyShip {
 
   updateScore(newScore) {
     this.score = newScore;
+    let myEnemyScore = document.querySelector(`.score${1}`);
+    console.log("tosetinnerhtml2: ", myEnemyScore);
+
+    myEnemyScore.innerHTML = `${this.name}: ${this.score}`;
   }
 
   shootBullet(bulletUID) {
