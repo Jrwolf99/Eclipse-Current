@@ -1,4 +1,14 @@
+const checkIfServerConnected = () => {
+  if (ws) return;
+  var errormessage = document.createElement("p");
+  errormessage.className = "errormessage";
+  errormessage.textContent = "You are not connected to the server";
+  var myStartButton = document.querySelector(".titlescreen__button--start");
+  myStartButton.insertAdjacentElement("afterend", errormessage);
+};
+
 const startGameClient = (playerCount, obstacleData) => {
+  checkIfServerConnected();
   centerCamera(1165);
   changeScreenOverlayElements(playerCount);
   let myShip = new Ship();
