@@ -1,0 +1,134 @@
+.titlescreen {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+
+  width: 100%;
+  height: 600px;
+  position: absolute;
+  top: 450px;
+}
+
+.titlescreen__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 200;
+  height: 102px;
+  width: 356px;
+  gap: 20px;
+
+  transform: translateY(5rem);
+}
+
+.titlescreen__button {
+  border-radius: 30px;
+}
+
+.titlescreen__button:hover {
+  cursor: pointer;
+  background-color: rgb(110, 7, 170);
+}
+
+.titlescreen__button--start {
+
+  display: none;
+}
+
+
+.errormessage {
+    color: red;
+    padding: 1em;
+    background-color: rgba(255, 255, 255, 0.516);
+}
+
+
+
+.namefield {
+  color: violet;
+  font-size: 2rem;
+  margin: auto;
+  text-align: center;
+
+}
+
+
+.namefield_form  {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+
+}
+
+.namefield_form > button {
+
+  width: 60%;
+  padding: .3em .5em;
+  border: 2px solid blueviolet;
+  background-color: transparent;
+  border-radius: 5px;
+
+  color: white;
+  font-size: 1rem;
+
+  
+}
+
+.namefield_form > button:hover {
+  cursor: pointer;
+  background-color: rgb(110, 7, 170);
+}
+
+
+
+.namefield_input {
+  background-color: transparent;
+  border: 2px solid blueviolet;
+  border-radius: 10px;
+  color: white;
+  font-size: 2rem;
+  padding: .5em;
+  
+
+}
+.namefield_input::placeholder{
+  color: violet;
+}
+
+
+.names {
+  list-style-type: none;
+  font-size: 2rem;
+
+}
+
+.names>* {
+  color: violet;
+}
+
+.titlescreen__logo {
+  font-size: 100px;
+  color: white;
+  height: 367px;
+  width: 1046px;
+}
+
+.titlescreen__supbuttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (min-height: 800px) {
+  .titlescreen__supbuttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
