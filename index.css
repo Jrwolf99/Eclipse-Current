@@ -115,39 +115,18 @@ html,
   align-items: center;
 }
 
-.titlescreen__buttons {
+.titlescreen_buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-
-
-}
-
-.titlescreen__buttons:hover {
-  background-color: red;
+  flex-direction: column;
+  gap: 100px;
+  position: relative;
 }
 
 .titlescreen__button  {
   border-radius: 30px;
-  position: absolute;
-
-
 }
-.titlescreen__button--singleplayer  {
-
-  left: 20%;
-
-
-}
-
-.titlescreen__button--multiplayer  {
-
-  right: 20%;
-
-
-}
-
-
 
 .titlescreen__button:hover {
   cursor: pointer;
