@@ -4,7 +4,7 @@ Check it out here: https://jrwolf-eclipse.netlify.app/index.html
 
 
 
-uses express server, and socket.io
+uses express server, and a native websockets package.
 npm install is needed to gain the necessary packages to support the server. 
 
 
