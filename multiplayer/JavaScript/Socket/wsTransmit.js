@@ -1,6 +1,6 @@
 // const ws = new WebSocket("ws://localhost:3000");
 const ws = new WebSocket(
-  "wss://eclipseserver-env.eba-mrnsysrh.us-east-1.elasticbeanstalk.com/"
+  "ws://eclipseserver-env.eba-mrnsysrh.us-east-1.elasticbeanstalk.com/"
 );
 
 //websocket transmissions are conducted throughout the whole
